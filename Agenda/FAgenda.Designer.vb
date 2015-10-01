@@ -10,8 +10,10 @@ Partial Class FAgenda
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FAgenda))
         Me.TCCalendrier = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.BImprimer = New System.Windows.Forms.Button()
         Me.TBHeureRdv23 = New System.Windows.Forms.TextBox()
         Me.TBHeureRdv22 = New System.Windows.Forms.TextBox()
         Me.TBHeureRdv21 = New System.Windows.Forms.TextBox()
@@ -71,7 +73,9 @@ Partial Class FAgenda
         Me.TBNouvMotPasse = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.TBNouvUtil = New System.Windows.Forms.TextBox()
-        Me.BImprimer = New System.Windows.Forms.Button()
+        Me.PrintDocumentJour = New System.Drawing.Printing.PrintDocument()
+        Me.PageSetupDialogJour = New System.Windows.Forms.PageSetupDialog()
+        Me.PrintPreviewDialogJour = New System.Windows.Forms.PrintPreviewDialog()
         Me.TCCalendrier.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -87,11 +91,13 @@ Partial Class FAgenda
         Me.TCCalendrier.Multiline = True
         Me.TCCalendrier.Name = "TCCalendrier"
         Me.TCCalendrier.SelectedIndex = 0
-        Me.TCCalendrier.Size = New System.Drawing.Size(1673, 999)
+        Me.TCCalendrier.Size = New System.Drawing.Size(Me.Width, Me.Height)
+        Me.TCCalendrier.SizeMode = System.Windows.Forms.TabSizeMode.Normal
         Me.TCCalendrier.TabIndex = 0
         '
         'TabPage1
         '
+        Me.TabPage1.AutoScroll = True
         Me.TabPage1.Controls.Add(Me.BImprimer)
         Me.TabPage1.Controls.Add(Me.TBHeureRdv23)
         Me.TabPage1.Controls.Add(Me.TBHeureRdv22)
@@ -146,10 +152,20 @@ Partial Class FAgenda
         Me.TabPage1.Margin = New System.Windows.Forms.Padding(4)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(4)
-        Me.TabPage1.Size = New System.Drawing.Size(1665, 970)
+        Me.TabPage1.Size = New System.Drawing.Size(TCCalendrier.Width, TCCalendrier.Height)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Rendez-Vous"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'BImprimer
+        '
+        Me.BImprimer.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.0!)
+        Me.BImprimer.Location = New System.Drawing.Point(83, 837)
+        Me.BImprimer.Name = "BImprimer"
+        Me.BImprimer.Size = New System.Drawing.Size(216, 57)
+        Me.BImprimer.TabIndex = 49
+        Me.BImprimer.Text = "Imprimer"
+        Me.BImprimer.UseVisualStyleBackColor = True
         '
         'TBHeureRdv23
         '
@@ -595,6 +611,7 @@ Partial Class FAgenda
         '
         'TabPage2
         '
+        Me.TabPage2.AutoScroll = True
         Me.TabPage2.Controls.Add(Me.CBAdmin)
         Me.TabPage2.Controls.Add(Me.Label9)
         Me.TabPage2.Controls.Add(Me.BSupprimUtil)
@@ -699,15 +716,23 @@ Partial Class FAgenda
         Me.TBNouvUtil.Size = New System.Drawing.Size(407, 22)
         Me.TBNouvUtil.TabIndex = 0
         '
-        'BImprimer
+        'PrintDocumentJour
         '
-        Me.BImprimer.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.0!)
-        Me.BImprimer.Location = New System.Drawing.Point(83, 837)
-        Me.BImprimer.Name = "BImprimer"
-        Me.BImprimer.Size = New System.Drawing.Size(216, 57)
-        Me.BImprimer.TabIndex = 49
-        Me.BImprimer.Text = "Imprimer"
-        Me.BImprimer.UseVisualStyleBackColor = True
+        '
+        'PageSetupDialogJour
+        '
+        Me.PageSetupDialogJour.AllowPrinter = False
+        Me.PageSetupDialogJour.Document = Me.PrintDocumentJour
+        '
+        'PrintPreviewDialogJour
+        '
+        Me.PrintPreviewDialogJour.AutoScrollMargin = New System.Drawing.Size(0, 0)
+        Me.PrintPreviewDialogJour.AutoScrollMinSize = New System.Drawing.Size(0, 0)
+        Me.PrintPreviewDialogJour.ClientSize = New System.Drawing.Size(400, 300)
+        Me.PrintPreviewDialogJour.Enabled = True
+        Me.PrintPreviewDialogJour.Icon = CType(resources.GetObject("PrintPreviewDialogJour.Icon"), System.Drawing.Icon)
+        Me.PrintPreviewDialogJour.Name = "PrintPreviewDialogJour"
+        Me.PrintPreviewDialogJour.Visible = False
         '
         'FAgenda
         '
@@ -717,7 +742,7 @@ Partial Class FAgenda
         Me.Controls.Add(Me.TCCalendrier)
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "FAgenda"
-        Me.Text = "Calendrier / Agenda"
+        Me.Text = "Agenda / Calendrier"
         Me.TCCalendrier.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
@@ -788,4 +813,7 @@ Partial Class FAgenda
     Friend WithEvents TBHeureRdv13 As System.Windows.Forms.TextBox
     Friend WithEvents TBHeureRdv12 As System.Windows.Forms.TextBox
     Friend WithEvents BImprimer As System.Windows.Forms.Button
+    Friend WithEvents PrintDocumentJour As System.Drawing.Printing.PrintDocument
+    Friend WithEvents PageSetupDialogJour As System.Windows.Forms.PageSetupDialog
+    Friend WithEvents PrintPreviewDialogJour As System.Windows.Forms.PrintPreviewDialog
 End Class
