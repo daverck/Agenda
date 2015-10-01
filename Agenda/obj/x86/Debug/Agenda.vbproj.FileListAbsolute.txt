@@ -63,3 +63,14 @@ D:\cours bac 2\technique de gestion de projet\travail de groupe\agenda_github_re
 D:\cours bac 2\technique de gestion de projet\travail de groupe\agenda_github_repository\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FAgenda.resources
 D:\cours bac 2\technique de gestion de projet\travail de groupe\agenda_github_repository\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.Resources.resources
 D:\cours bac 2\technique de gestion de projet\travail de groupe\agenda_github_repository\Agenda\Agenda\obj\x86\Debug\Agenda.vbproj.GenerateResource.Cache
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\Agenda.exe
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\Agenda.xml
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\Agenda.pdb
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\bin\Debug\Agenda.exe
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\bin\Debug\Agenda.pdb
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\bin\Debug\Agenda.xml
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\Agenda.vbprojResolveAssemblyReference.cache
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FBase.resources
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FAgenda.resources
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.Resources.resources
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\Agenda.vbproj.GenerateResource.Cache

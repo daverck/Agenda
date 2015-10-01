@@ -32,60 +32,56 @@ Partial Class FBase
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(73, 106)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label1.Location = New System.Drawing.Point(55, 86)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(121, 17)
+        Me.Label1.Size = New System.Drawing.Size(90, 13)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Nom d'utilisateur :"
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(93, 161)
-        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label2.Location = New System.Drawing.Point(70, 131)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(101, 17)
+        Me.Label2.Size = New System.Drawing.Size(77, 13)
         Me.Label2.TabIndex = 1
         Me.Label2.Text = "Mot de passe :"
         '
         'BOKLogin
         '
-        Me.BOKLogin.Location = New System.Drawing.Point(244, 231)
-        Me.BOKLogin.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.BOKLogin.Location = New System.Drawing.Point(183, 188)
         Me.BOKLogin.Name = "BOKLogin"
-        Me.BOKLogin.Size = New System.Drawing.Size(132, 28)
+        Me.BOKLogin.Size = New System.Drawing.Size(99, 23)
         Me.BOKLogin.TabIndex = 2
         Me.BOKLogin.Text = "OK"
         Me.BOKLogin.UseVisualStyleBackColor = True
         '
         'TBNomUtil
         '
-        Me.TBNomUtil.Location = New System.Drawing.Point(244, 96)
-        Me.TBNomUtil.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TBNomUtil.Location = New System.Drawing.Point(183, 78)
         Me.TBNomUtil.Name = "TBNomUtil"
-        Me.TBNomUtil.Size = New System.Drawing.Size(132, 22)
+        Me.TBNomUtil.Size = New System.Drawing.Size(100, 20)
         Me.TBNomUtil.TabIndex = 3
         '
         'TBMotPasse
         '
-        Me.TBMotPasse.Location = New System.Drawing.Point(244, 161)
-        Me.TBMotPasse.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TBMotPasse.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
+        Me.TBMotPasse.Location = New System.Drawing.Point(183, 131)
         Me.TBMotPasse.Name = "TBMotPasse"
-        Me.TBMotPasse.Size = New System.Drawing.Size(132, 22)
+        Me.TBMotPasse.Size = New System.Drawing.Size(100, 20)
         Me.TBMotPasse.TabIndex = 4
+        Me.TBMotPasse.UseSystemPasswordChar = True
         '
         'FBase
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(523, 361)
+        Me.ClientSize = New System.Drawing.Size(392, 293)
         Me.Controls.Add(Me.TBMotPasse)
         Me.Controls.Add(Me.TBNomUtil)
         Me.Controls.Add(Me.BOKLogin)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Name = "FBase"
         Me.Text = "Agenda"
         Me.ResumeLayout(False)

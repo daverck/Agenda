@@ -22,34 +22,40 @@ Public Class GestionFichier
 
     'Procédure de lecture du fichier regroupant les utilisateurs
     Private Sub LectureFichierUtilisateurs(ByVal Fichier As String)
-        'Try
-        Dim LectureLigne As String
-        Dim TableauDivision(50) As String
+        Try
+            Dim LectureLigne As String
+            Dim TableauDivision(50) As String
 
-        'On ouvre le fichier
-        Dim LecteurFichier As New StreamReader(Fichier, System.Text.Encoding.UTF8)
+            'On ouvre le fichier
+            Dim LecteurFichier As New StreamReader(Fichier, System.Text.Encoding.UTF8)
 
-        'On récupère tous les utilisateurs et leurs logins dans une structure
-        Do
+            'On récupère tous les utilisateurs et leurs logins dans une structure
+            Do
 
-            LectureLigne = LecteurFichier.ReadLine()
-            ReDim Preserve Utilisateurs(ILectureUtilisateurs)
-            TableauDivision = Split(LectureLigne, ";")
-            Utilisateurs(ILectureUtilisateurs).Pass = TableauDivision(0)
-            Utilisateurs(ILectureUtilisateurs).Pseudonyme = TableauDivision(1)
-            Utilisateurs(ILectureUtilisateurs).Privilege = TableauDivision(2)
-            ILectureUtilisateurs += 1
+                LectureLigne = LecteurFichier.ReadLine()
+                ReDim Preserve Utilisateurs(ILectureUtilisateurs)
+                TableauDivision = Split(LectureLigne, ";")
+                Utilisateurs(ILectureUtilisateurs).Pass = TableauDivision(0)
+                Utilisateurs(ILectureUtilisateurs).Pseudonyme = TableauDivision(1)
+                Utilisateurs(ILectureUtilisateurs).Privilege = TableauDivision(2)
+                ILectureUtilisateurs += 1
 
-        Loop While LecteurFichier.Peek <> -1
-        ILectureUtilisateurs -= 1
+            Loop While LecteurFichier.Peek <> -1
+            ILectureUtilisateurs -= 1
 
-        'Fermeture du lecteur et de son fichier
-        LecteurFichier.Close()
-        'Catch ex As Exception
+            'Fermeture du lecteur et de son fichier
+            LecteurFichier.Close()
 
-        'Si plantage, on lancera la méthode backup liée à la récupération des fichiers et on relancera la méthode LectureFichierUtilisateurs
+        Catch ex As Exception
 
-        'End Try
+            'Si plantage, on lance la méthode backup liée à la récupération des fichiers et on relancera la méthode LectureFichierUtilisateurs
+            Dim FichierCible As String = "./FichierSauvegarde/UtilisateursOld.csv"
+            File.Delete(Fichier)
+            File.Copy(FichierCible, Fichier)
+            ILectureUtilisateurs = 0
+            LectureFichierAgenda(Fichier)
+
+        End Try
     End Sub
 
     'Méthode de vérification d'utilisateur renvoie -1 ou 0 ou 1 (-1 : N'existe pas ou erreur de MdP/0 : utilisateur/1 : Admin)
@@ -88,27 +94,37 @@ Public Class GestionFichier
     'Procédure de récupération des données liées à l'agenda
     Private Sub LectureFichierAgenda(ByVal Fichier As String)
 
-        'Try
-        Dim LectureLigne As String
-        'On initialise le lecteur de fichier avec la norme UTF8 et on ouvre le fichier
-        Dim LecteurFichier As New StreamReader(Fichier, System.Text.Encoding.UTF8)
+        Try
+            Dim LectureLigne As String
+            'On initialise le lecteur de fichier avec la norme UTF8 et on ouvre le fichier
+            Dim LecteurFichier As New StreamReader(Fichier, System.Text.Encoding.UTF8)
 
-        'On récupère l'ensemble des données dans une structure
-        Do
-            For i = 0 To 23
-                LectureLigne = LecteurFichier.ReadLine()
-                ReDim Preserve Agenda(ILectureAgenda)
-                ReDim Preserve Agenda(ILectureAgenda).NNote(23)
-                Agenda(ILectureAgenda).NNote(i) = LectureLigne
-            Next
-            ILectureAgenda += 1
-        Loop While LecteurFichier.Peek <> -1
+            'On récupère l'ensemble des données dans une structure
+            Do
+                For i = 0 To 23
+                    LectureLigne = LecteurFichier.ReadLine()
+                    ReDim Preserve Agenda(ILectureAgenda)
+                    ReDim Preserve Agenda(ILectureAgenda).NNote(23)
+                    Agenda(ILectureAgenda).NNote(i) = LectureLigne
+                Next
+                ILectureAgenda += 1
+            Loop While LecteurFichier.Peek <> -1
 
-        'Catch ex As Exception
+            Dim FichierCible = "./FichiersSauvegarde/" & IDUtilisateur & "Old.csv"
+            File.Delete(FichierCible)
+            File.Copy(Fichier, FichierCible)
 
-        'Si plantage, on lancera la méthode backup liée à la récupération des fichiers et on relancera la méthode LectureFichierAgenda
+        Catch ex As Exception
+            'On récupère la sauvegarde que l'on renomme puis on relance la procédure
+            Dim FichierSource As String = "./FichiersSauvegarde/" & IDUtilisateur & "Old.csv"
+            Dim FichierCible As String = "./FichiersSauvegarde/" & IDUtilisateur & ".csv"
 
-        'End Try
+            'File.Delete(FichierCible)
+            'File.Copy(Fichier, FichierCible)
+            'ILectureAgenda = 0
+            'LectureFichierAgenda(FichierCible)
+
+        End Try
     End Sub
 
     'Méthode qui récupère les notes de l'utilisateur à l'heure du jour demandé
@@ -126,7 +142,7 @@ Public Class GestionFichier
         End If
 
         'On récupère et envoie l'information demandée
-        Informations = Agenda(DateJour - 1).NNote(DateHeure - 1)
+        Informations = Agenda(DateJour).NNote(DateHeure)
         Return Informations
 
     End Function
@@ -290,8 +306,14 @@ Public Class GestionFichier
         End Try
     End Function
 
+    'Ecrit dans la mémoire vive (structure) les nouvelles données, mais ne sauvegarde pas dans le fichier !
     Public Function EcritureAgenda(ByVal DateJour As Integer, ByVal DateHeure As Integer, ByVal Information As String) As Boolean
-        Agenda(DateJour - 1).NNote(DateHeure - 1) = Information
+        Try
+            Agenda(DateJour - 1).NNote(DateHeure - 1) = Information
+            Return True
+        Catch ex As Exception
+            Return False
+        End Try
     End Function
 
 End Class
