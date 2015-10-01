@@ -1,6 +1,5 @@
 ﻿Public Class FAgenda
 
-    'on trouve l'indice du jour actuel
     Dim JourDeLAnnee As Integer
 
     Private Sub FAgenda_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -43,6 +42,10 @@
         FBase.Gestion.EcritureAgenda(JourDeLAnnee, 21, TBHeureRdv21.Text)
         FBase.Gestion.EcritureAgenda(JourDeLAnnee, 22, TBHeureRdv22.Text)
         FBase.Gestion.EcritureAgenda(JourDeLAnnee, 23, TBHeureRdv23.Text)
+        If Not FBase.Gestion.EcritureFichierAgenda() Then
+            DErreur.LErreur.Text = "Erreur à l'enregistrement des données !"
+            DErreur.ShowDialog()
+        End If
     End Sub
 
     Private Sub Calendrier_DateSelected(ByVal sender As Object, ByVal e As System.Windows.Forms.DateRangeEventArgs) Handles Calendrier.DateSelected
@@ -107,6 +110,10 @@
             FBase.Gestion.EcritureAgenda(JourDeLAnnee, 21, TBHeureRdv21.Text)
             FBase.Gestion.EcritureAgenda(JourDeLAnnee, 22, TBHeureRdv22.Text)
             FBase.Gestion.EcritureAgenda(JourDeLAnnee, 23, TBHeureRdv23.Text)
+            If Not FBase.Gestion.EcritureFichierAgenda() Then
+                DErreur.LErreur.Text = "Erreur à l'enregistrement des données !"
+                DErreur.ShowDialog()
+            End If
 
             'on récupère l'indice du jour sélectionné dans l'année en cours
             JourDeLAnnee = Me.Calendrier.SelectionRange.Start.DayOfYear
@@ -140,7 +147,4 @@
 
     End Sub
 
-    Private Sub LB_00_01h_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LB_00_01h.Click
-
-    End Sub
 End Class

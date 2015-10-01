@@ -16,7 +16,7 @@ Public Class GestionFichier
     Private ILectureUtilisateurs As Integer
     Private ILectureAgenda As Integer = 1
     Private Utilisateurs() As StructureUtilisateur
-    Private Agenda() As StructureAgenda
+    Private Agenda(366) As StructureAgenda
 
     Private IDUtilisateur As String
 
@@ -94,8 +94,9 @@ Public Class GestionFichier
     'Procédure de récupération des données liées à l'agenda
     Private Sub LectureFichierAgenda(ByVal Fichier As String)
 
+        Dim LectureLigne As String
         Try
-            Dim LectureLigne As String
+
             'On initialise le lecteur de fichier avec la norme UTF8 et on ouvre le fichier
             Dim LecteurFichier As New StreamReader(Fichier, System.Text.Encoding.UTF8)
 
@@ -282,34 +283,35 @@ Public Class GestionFichier
     End Function
 
     'Ecrit dans le fichier ce que l'utilisateur veut sauvegarder à la date et à l'heure mentionnées
-    Public Function EcritureFichierAgenda(ByVal DateJour As String, ByVal DateHeure As String) As Boolean
+    Public Function EcritureFichierAgenda() As Boolean
+
+        Dim CptJours As Integer
+        Dim Fichier As String = "./FichiersSauvegarde/" & IDUtilisateur & ".csv"
+        Dim LecteurFichier As StreamWriter
 
         Try
-            Dim CptJours As Integer
-            Dim Fichier As String = "./FichiersSauvegarde/" & IDUtilisateur & ".csv"
-            Dim LecteurFichier As StreamWriter = New StreamWriter(Fichier, False, Encoding.UTF8)
-            Do
-                For CptHeures = 0 To 23
-                    LecteurFichier.WriteLine(Agenda(CptJours).NNote(CptHeures))
-                Next
-
-                CptJours += 1
-            Loop While CptJours <> 366
-
-            LecteurFichier.Close()
-            Return True
-
+            LecteurFichier = New StreamWriter(Fichier, False, Encoding.UTF8)
         Catch ex As Exception
-
             Return False
-
         End Try
+
+        Do
+            For CptHeures = 0 To 23
+                LecteurFichier.WriteLine(Agenda(CptJours).NNote(CptHeures))
+            Next
+            CptJours += 1
+        Loop While CptJours <> 366
+
+        LecteurFichier.Close()
+        Return True
+
     End Function
+
 
     'Ecrit dans la mémoire vive (structure) les nouvelles données, mais ne sauvegarde pas dans le fichier !
     Public Function EcritureAgenda(ByVal DateJour As Integer, ByVal DateHeure As Integer, ByVal Information As String) As Boolean
         Try
-            Agenda(DateJour - 1).NNote(DateHeure - 1) = Information
+            Agenda(DateJour - 1).NNote(DateHeure) = Information
             Return True
         Catch ex As Exception
             Return False
