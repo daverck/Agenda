@@ -22,12 +22,13 @@ Public Class GestionFichier
 
     'Procédure de lecture du fichier regroupant les utilisateurs
     Private Sub LectureFichierUtilisateurs(ByVal Fichier As String)
-        Try
-            Dim LectureLigne As String
-            Dim TableauDivision(50) As String
+        Dim LectureLigne As String
+        Dim TableauDivision(50) As String
+        Dim LecteurFichier As StreamReader
 
+        Try
             'On ouvre le fichier
-            Dim LecteurFichier As New StreamReader(Fichier, System.Text.Encoding.UTF8)
+            LecteurFichier = New StreamReader(Fichier, System.Text.Encoding.UTF8)
 
             'On récupère tous les utilisateurs et leurs logins dans une structure
             Do
@@ -93,12 +94,12 @@ Public Class GestionFichier
 
     'Procédure de récupération des données liées à l'agenda
     Private Sub LectureFichierAgenda(ByVal Fichier As String)
-
         Dim LectureLigne As String
-        Try
+        Dim LecteurFichier As StreamReader
 
+        Try
             'On initialise le lecteur de fichier avec la norme UTF8 et on ouvre le fichier
-            Dim LecteurFichier As New StreamReader(Fichier, System.Text.Encoding.UTF8)
+            LecteurFichier = New StreamReader(Fichier, System.Text.Encoding.UTF8)
 
             'On récupère l'ensemble des données dans une structure
             Do
@@ -132,14 +133,15 @@ Public Class GestionFichier
     Public Function LectureAgenda(ByVal DateJour As Integer, ByVal DateHeure As Integer) As String
 
         Dim Informations As String
-        Static Capteur As Integer = 0
-        DateHeure += 1
+        Static Capteur As Boolean = False
         Dim Fichier As String = "./FichiersSauvegarde/" & IDUtilisateur & ".csv"
 
+        'DateHeure += 1
+
         'Si l'on n'a pas encore chargé les données venant du fichier, on lance son chargement
-        If Capteur = 0 Then
+        If Not Capteur Then
             LectureFichierAgenda(Fichier)
-            Capteur += 1
+            Capteur = True
         End If
 
         'On récupère et envoie l'information demandée
@@ -151,6 +153,7 @@ Public Class GestionFichier
     'Méthode de gestion des utilisateurs proposant deux choix : l'ajout, le retrait d'un utilisateur
     Public Function GestionUtilisateurs(ByVal NomUtilisateur As String, ByVal MdP As String, ByVal AjoutSupr As Integer, Optional ByVal Privilege As Integer = 0) As Boolean
         Dim Verif As Boolean
+
         Select Case AjoutSupr
             Case 1
                 Verif = AjoutUtilisateur(NomUtilisateur, MdP, Privilege)
@@ -163,6 +166,8 @@ Public Class GestionFichier
 
     'Méthode qui ajoute les utilisateurs à la structure StructureUtilisateur et retourne true si l'ajout a fonctionné et false en cas d'échec
     Private Function AjoutUtilisateur(ByVal NomUtilisateur As String, ByVal MdP As String, ByVal Privilege As Integer) As Boolean
+        Dim Ligne As String
+        Dim LecteurFichier As StreamWriter
 
         Try
             'Ajout de l'utilisateur dans le tableau de structure
@@ -173,9 +178,7 @@ Public Class GestionFichier
             Utilisateurs(ILectureUtilisateurs).Privilege = CType(Privilege, String)
 
             'Ajout de l'utilisateur dans le fichier correspondant
-            Dim LecteurFichier As StreamWriter = New StreamWriter("./FichiersSauvegarde/Utilisateurs.csv", True, Encoding.UTF8)
-            Dim Ligne As String
-
+            LecteurFichier = New StreamWriter("./FichiersSauvegarde/Utilisateurs.csv", True, Encoding.UTF8)
             Ligne = MdP & ";" & NomUtilisateur & ";" & Privilege
             LecteurFichier.WriteLine(Ligne)
 
@@ -183,22 +186,19 @@ Public Class GestionFichier
             Return True
 
         Catch ex As Exception
-
             Return False
-
         End Try
+
     End Function
 
     'Méthode qui supprime un utilisateurs de la structure StructureUtilisateur et du fichier correspondant puis retourne true si l'ajout a fonctionné et false en cas d'échec
     Private Function SuprUtilisateur(ByVal NomUtilisateur As String) As Boolean
+        Dim Comparateur As Integer
+        Dim Cpt As Integer
+        Dim i As Integer
+        Dim Provisoire() As StructureUtilisateur
 
         Try
-
-            Dim Comparateur As Integer
-            Dim Cpt As Integer
-            Dim i As Integer
-            Dim Provisoire() As StructureUtilisateur
-
             'On repère où se trouve l'utilisateur dans le tableau
             Do
                 Comparateur = String.Compare(NomUtilisateur, Utilisateurs(Cpt).Pseudonyme)
@@ -242,10 +242,9 @@ Public Class GestionFichier
             End If
 
         Catch ex As Exception
-
             Return False
-
         End Try
+
     End Function
 
     'Méthode qui modifie un utilisateur de la structure StructureUtilisateur ainsi que dans le fichier correspondant puis retourne true si la modification a fonctionné et false en cas d'échec

@@ -52,7 +52,7 @@ Partial Class FBase
         'BOKLogin
         '
         Me.BOKLogin.Location = New System.Drawing.Point(244, 231)
-        Me.BOKLogin.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.BOKLogin.Margin = New System.Windows.Forms.Padding(4)
         Me.BOKLogin.Name = "BOKLogin"
         Me.BOKLogin.Size = New System.Drawing.Size(132, 28)
         Me.BOKLogin.TabIndex = 4
@@ -62,7 +62,7 @@ Partial Class FBase
         'TBNomUtil
         '
         Me.TBNomUtil.Location = New System.Drawing.Point(244, 96)
-        Me.TBNomUtil.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TBNomUtil.Margin = New System.Windows.Forms.Padding(4)
         Me.TBNomUtil.Name = "TBNomUtil"
         Me.TBNomUtil.Size = New System.Drawing.Size(132, 22)
         Me.TBNomUtil.TabIndex = 1
@@ -71,7 +71,7 @@ Partial Class FBase
         '
         Me.TBMotPasse.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.TBMotPasse.Location = New System.Drawing.Point(244, 161)
-        Me.TBMotPasse.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TBMotPasse.Margin = New System.Windows.Forms.Padding(4)
         Me.TBMotPasse.Name = "TBMotPasse"
         Me.TBMotPasse.Size = New System.Drawing.Size(132, 23)
         Me.TBMotPasse.TabIndex = 3
@@ -88,8 +88,10 @@ Partial Class FBase
         Me.Controls.Add(Me.BOKLogin)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "FBase"
+        Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Agenda / Login"
         Me.ResumeLayout(False)
         Me.PerformLayout()

@@ -91,7 +91,7 @@ Partial Class FAgenda
         Me.TCCalendrier.Multiline = True
         Me.TCCalendrier.Name = "TCCalendrier"
         Me.TCCalendrier.SelectedIndex = 0
-        Me.TCCalendrier.Size = New System.Drawing.Size(Me.Width, Me.Height)
+        Me.TCCalendrier.Size = New System.Drawing.Size(1673, 999)
         Me.TCCalendrier.SizeMode = System.Windows.Forms.TabSizeMode.Normal
         Me.TCCalendrier.TabIndex = 0
         '
@@ -152,7 +152,7 @@ Partial Class FAgenda
         Me.TabPage1.Margin = New System.Windows.Forms.Padding(4)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(4)
-        Me.TabPage1.Size = New System.Drawing.Size(TCCalendrier.Width, TCCalendrier.Height)
+        Me.TabPage1.Size = New System.Drawing.Size(1665, 970)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Rendez-Vous"
         Me.TabPage1.UseVisualStyleBackColor = True

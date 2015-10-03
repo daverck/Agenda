@@ -1,6 +1,7 @@
 ﻿Public Class FAgenda
 
     Dim JourDeLAnnee As Integer
+    Dim Imprimante As New Impression()
 
     Private Sub FAgenda_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         '
@@ -175,7 +176,7 @@
         NbrLignesParPage = (e.MarginBounds.Height - HauteurLigneTitre) / HauteurLigne
 
         ' Mise en page du Titre
-        Ligne = "Notes du " & Calendrier.SelectionRange.Start.DayOfWeek.ToString & " " & Calendrier.SelectionRange.Start.Day.ToString & " " & Calendrier.SelectionRange.Start.Month.ToString & " " & Calendrier.SelectionRange.Start.Year.ToString
+        Ligne = "Calendrier de " & FBase.TBNomUtil.Text & " : Notes du " & Calendrier.SelectionRange.Start.DayOfWeek.ToString & " " & Calendrier.SelectionRange.Start.Day.ToString & " " & Calendrier.SelectionRange.Start.Month.ToString & " " & Calendrier.SelectionRange.Start.Year.ToString
         Position = New PointF(e.MarginBounds.Left, e.MarginBounds.Top)
         RectangleTitre.Location = Position
         e.Graphics.DrawString(Ligne, PoliceTitre, Brushes.Black, RectangleTitre)
