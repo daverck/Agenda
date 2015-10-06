@@ -74,4 +74,3 @@ C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.F
 C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FAgenda.resources
 C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.Resources.resources
 C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\Agenda.vbproj.GenerateResource.Cache
-D:\cours bac 2\technique de gestion de projet\travail de groupe\agenda_github_repository\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.DErreur.resources

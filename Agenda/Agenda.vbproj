@@ -73,12 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Impression.vb" />
-    <Compile Include="DErreur.Designer.vb">
-      <DependentUpon>DErreur.vb</DependentUpon>
-    </Compile>
-    <Compile Include="DErreur.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="FBase.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -110,9 +104,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DErreur.resx">
-      <DependentUpon>DErreur.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FBase.resx">
       <DependentUpon>FBase.vb</DependentUpon>
     </EmbeddedResource>

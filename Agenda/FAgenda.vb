@@ -75,9 +75,11 @@
         FBase.Gestion.EcritureAgenda(JourDeLAnnee, 22, TBHeureRdv22.Text)
         FBase.Gestion.EcritureAgenda(JourDeLAnnee, 23, TBHeureRdv23.Text)
         If Not FBase.Gestion.EcritureFichierAgenda() Then
-            DErreur.LErreur.Text = "Erreur à l'enregistrement des données !"
-            DErreur.ShowDialog()
+            MessageBox.Show("Erreur à l'enregistrement des données !")
         End If
+
+        'Fermeture de FBase
+        FBase.Dispose()
     End Sub
 
     Private Sub Calendrier_DateSelected(ByVal sender As Object, ByVal e As System.Windows.Forms.DateRangeEventArgs) Handles Calendrier.DateSelected
