@@ -15,7 +15,7 @@ Public Class GestionFichier
     End Structure
 
     Private ILectureUtilisateurs As Integer
-    Private ILectureAgenda As Integer = 0
+    Private ILectureAgenda As Integer
     Private Utilisateurs() As StructureUtilisateur
     Private Agenda As StructureAgenda
 
@@ -26,13 +26,11 @@ Public Class GestionFichier
         Try
             Dim LectureLigne As String
             Dim TableauDivision(50) As String
-
             'On ouvre le fichier
             Dim LecteurFichier As New StreamReader(Fichier, System.Text.Encoding.UTF8)
 
             'On récupère tous les utilisateurs et leurs logins dans une structure
             Do
-
                 LectureLigne = LecteurFichier.ReadLine()
                 ReDim Preserve Utilisateurs(ILectureUtilisateurs)
                 TableauDivision = Split(LectureLigne, ";")
@@ -40,8 +38,8 @@ Public Class GestionFichier
                 Utilisateurs(ILectureUtilisateurs).Pseudonyme = TableauDivision(1)
                 Utilisateurs(ILectureUtilisateurs).Privilege = TableauDivision(2)
                 ILectureUtilisateurs += 1
-
             Loop While LecteurFichier.Peek <> -1
+
             ILectureUtilisateurs -= 1
 
             'Fermeture du lecteur et de son fichier
@@ -136,10 +134,9 @@ Public Class GestionFichier
         Try
             Dim Index As String
             Dim Informations As String
-            'Ajout de = 0
-            Dim i As Integer = 0
+            Dim i As Integer
             Dim Compare As Integer = -1
-            Static Capteur As Integer = 0
+            Static Capteur As Integer
             Dim Fichier As String = "./FichiersSauvegarde/" & IDUtilisateur & ".csv"
 
             'Si l'on n'a pas encore chargé les données venant du fichier, on lance son chargement
@@ -151,7 +148,6 @@ Public Class GestionFichier
             'On récupère et envoie l'information demandée
             Index = CType((DateJour * 100) + DateHeure, String)
             While i < ILectureAgenda And Compare <> 0
-                'EFFEUR ICI = > Agenda.Index(i) n'existe pas !!!
                 Compare = String.Compare(Agenda.Index(i), Index)
                 i += 1
             End While
@@ -187,18 +183,19 @@ Public Class GestionFichier
 
     'Méthode qui ajoute les utilisateurs à la structure StructureUtilisateur et retourne true si l'ajout a fonctionné et false en cas d'échec
     Private Function AjoutUtilisateur(ByVal NomUtilisateur As String, ByVal MdP As String, ByVal Privilege As Integer) As Boolean
+        Dim LecteurFichier As StreamWriter
+        Dim Ligne As String
+        ReDim Preserve Utilisateurs(ILectureUtilisateurs + 1)
+
+        'Ajout de l'utilisateur dans le tableau de structure
+        ILectureUtilisateurs += 1
+        Utilisateurs(ILectureUtilisateurs).Pseudonyme = NomUtilisateur
+        Utilisateurs(ILectureUtilisateurs).Pass = MdP
+        Utilisateurs(ILectureUtilisateurs).Privilege = CType(Privilege, String)
 
         Try
-            'Ajout de l'utilisateur dans le tableau de structure
-            ReDim Preserve Utilisateurs(ILectureUtilisateurs + 1)
-            ILectureUtilisateurs += 1
-            Utilisateurs(ILectureUtilisateurs).Pseudonyme = NomUtilisateur
-            Utilisateurs(ILectureUtilisateurs).Pass = MdP
-            Utilisateurs(ILectureUtilisateurs).Privilege = CType(Privilege, String)
-
             'Ajout de l'utilisateur dans le fichier correspondant
-            Dim LecteurFichier As StreamWriter = New StreamWriter("./FichiersSauvegarde/Utilisateurs.csv", True, Encoding.UTF8)
-            Dim Ligne As String
+            LecteurFichier = New StreamWriter("./FichiersSauvegarde/Utilisateurs.csv", True, Encoding.UTF8)
 
             Ligne = MdP & ";" & NomUtilisateur & ";" & Privilege
             LecteurFichier.WriteLine(Ligne)
@@ -218,14 +215,12 @@ Public Class GestionFichier
 
     'Méthode qui supprime un utilisateurs de la structure StructureUtilisateur et du fichier correspondant puis retourne true si l'ajout a fonctionné et false en cas d'échec
     Public Function SuprUtilisateur(ByVal NomUtilisateur As String) As Boolean
+        Dim Comparateur As Integer
+        Dim Cpt As Integer
+        Dim i As Integer
+        Dim Provisoire() As StructureUtilisateur
 
         Try
-
-            Dim Comparateur As Integer
-            Dim Cpt As Integer
-            Dim i As Integer
-            Dim Provisoire() As StructureUtilisateur
-
             'On repère où se trouve l'utilisateur dans le tableau
             Do
                 Comparateur = String.Compare(NomUtilisateur, Utilisateurs(Cpt).Pseudonyme)
@@ -314,12 +309,12 @@ Public Class GestionFichier
 
     'Ecrit dans le fichier ce que l'utilisateur veut sauvegarder à la date et à l'heure mentionnées
     Public Function EcritureFichierAgenda() As Boolean
+        Dim Cpt As Integer
+        Dim LigneAEcrire As String
+        Dim Fichier As String = "./FichiersSauvegarde/" & IDUtilisateur & ".csv"
+        Dim LecteurFichier As StreamWriter = New StreamWriter(Fichier, False, Encoding.UTF8)
 
         Try
-            Dim Cpt As Integer
-            Dim LigneAEcrire As String
-            Dim Fichier As String = "./FichiersSauvegarde/" & IDUtilisateur & ".csv"
-            Dim LecteurFichier As StreamWriter = New StreamWriter(Fichier, False, Encoding.UTF8)
             Do
                 LigneAEcrire = Agenda.Index(Cpt) & ";" & Agenda.NNote(Cpt)
                 LecteurFichier.WriteLine(LigneAEcrire)
@@ -332,15 +327,14 @@ Public Class GestionFichier
         Catch ex As Exception
             MessageBox.Show(ex.Message)
             Return False
-
         End Try
     End Function
 
     'Ecrit dans la mémoire vive (structure) les nouvelles données, mais ne sauvegarde pas dans le fichier !
     Public Function EcritureAgenda(ByVal DateJour As Integer, ByVal DateHeure As Integer, ByVal Information As String) As Boolean
         If Not (String.IsNullOrEmpty(Information) And String.IsNullOrWhiteSpace(Information)) Then
+            Dim Index As Integer = (DateJour * 100) + DateHeure
             Try
-                Dim Index As Integer = (DateJour * 100) + DateHeure
                 ReDim Preserve Agenda.Index(ILectureAgenda)
                 ReDim Preserve Agenda.NNote(ILectureAgenda)
                 Agenda.Index(ILectureAgenda) = Index
