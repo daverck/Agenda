@@ -10,25 +10,25 @@ Public Class GestionFichier
     End Structure
 
     Private Structure StructureAgenda
+        Dim Index() As String
         Dim NNote() As String
     End Structure
 
     Private ILectureUtilisateurs As Integer
-    Private ILectureAgenda As Integer = 1
+    Private ILectureAgenda As Integer = 0
     Private Utilisateurs() As StructureUtilisateur
-    Private Agenda(366) As StructureAgenda
+    Private Agenda As StructureAgenda
 
     Private IDUtilisateur As String
 
     'Procédure de lecture du fichier regroupant les utilisateurs
     Private Sub LectureFichierUtilisateurs(ByVal Fichier As String)
-        Dim LectureLigne As String
-        Dim TableauDivision(50) As String
-        Dim LecteurFichier As StreamReader
-
         Try
+            Dim LectureLigne As String
+            Dim TableauDivision(50) As String
+
             'On ouvre le fichier
-            LecteurFichier = New StreamReader(Fichier, System.Text.Encoding.UTF8)
+            Dim LecteurFichier As New StreamReader(Fichier, System.Text.Encoding.UTF8)
 
             'On récupère tous les utilisateurs et leurs logins dans une structure
             Do
@@ -94,24 +94,25 @@ Public Class GestionFichier
 
     'Procédure de récupération des données liées à l'agenda
     Private Sub LectureFichierAgenda(ByVal Fichier As String)
-        Dim LectureLigne As String
-        Dim LecteurFichier As StreamReader
 
         Try
+            Dim TableauDivision(2) As String
+            Dim LectureLigne As String
             'On initialise le lecteur de fichier avec la norme UTF8 et on ouvre le fichier
-            LecteurFichier = New StreamReader(Fichier, System.Text.Encoding.UTF8)
+            Dim LecteurFichier As New StreamReader(Fichier, System.Text.Encoding.UTF8)
 
             'On récupère l'ensemble des données dans une structure
-            Do
-                For i = 0 To 23
-                    LectureLigne = LecteurFichier.ReadLine()
-                    ReDim Preserve Agenda(ILectureAgenda)
-                    ReDim Preserve Agenda(ILectureAgenda).NNote(23)
-                    Agenda(ILectureAgenda).NNote(i) = LectureLigne
-                Next
+            While LecteurFichier.Peek <> -1
+                LectureLigne = LecteurFichier.ReadLine()
+                ReDim Preserve Agenda.Index(ILectureAgenda)
+                ReDim Preserve Agenda.NNote(ILectureAgenda)
+                TableauDivision = Split(LectureLigne, ";")
+                Agenda.Index(ILectureAgenda) = TableauDivision(0)
+                Agenda.NNote(ILectureAgenda) = TableauDivision(1)
                 ILectureAgenda += 1
-            Loop While LecteurFichier.Peek <> -1
+            End While
 
+            LecteurFichier.Close()
             Dim FichierCible = "./FichiersSauvegarde/" & IDUtilisateur & "Old.csv"
             File.Delete(FichierCible)
             File.Copy(Fichier, FichierCible)
@@ -132,28 +133,48 @@ Public Class GestionFichier
     'Méthode qui récupère les notes de l'utilisateur à l'heure du jour demandé
     Public Function LectureAgenda(ByVal DateJour As Integer, ByVal DateHeure As Integer) As String
 
-        Dim Informations As String
-        Static Capteur As Boolean = False
-        Dim Fichier As String = "./FichiersSauvegarde/" & IDUtilisateur & ".csv"
+        Try
+            Dim Index As String
+            Dim Informations As String
+            'Ajout de = 0
+            Dim i As Integer = 0
+            Dim Compare As Integer = -1
+            Static Capteur As Integer = 0
+            Dim Fichier As String = "./FichiersSauvegarde/" & IDUtilisateur & ".csv"
 
-        'DateHeure += 1
+            'Si l'on n'a pas encore chargé les données venant du fichier, on lance son chargement
+            If Capteur = 0 Then
+                LectureFichierAgenda(Fichier)
+                Capteur += 1
+            End If
 
-        'Si l'on n'a pas encore chargé les données venant du fichier, on lance son chargement
-        If Not Capteur Then
-            LectureFichierAgenda(Fichier)
-            Capteur = True
-        End If
+            'On récupère et envoie l'information demandée
+            Index = CType((DateJour * 100) + DateHeure, String)
+            While i < ILectureAgenda And Compare <> 0
+                'EFFEUR ICI = > Agenda.Index(i) n'existe pas !!!
+                Compare = String.Compare(Agenda.Index(i), Index)
+                i += 1
+            End While
 
-        'On récupère et envoie l'information demandée
-        Informations = Agenda(DateJour).NNote(DateHeure)
-        Return Informations
+            If Compare = 0 Then
+                Informations = Agenda.NNote(i - 1)
+                Return Informations
+            Else
+                Informations = ""
+                Return Informations
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+            Return "#erreur"
+        End Try
+
 
     End Function
 
     'Méthode de gestion des utilisateurs proposant deux choix : l'ajout, le retrait d'un utilisateur
     Public Function GestionUtilisateurs(ByVal NomUtilisateur As String, ByVal MdP As String, ByVal AjoutSupr As Integer, Optional ByVal Privilege As Integer = 0) As Boolean
         Dim Verif As Boolean
-
         Select Case AjoutSupr
             Case 1
                 Verif = AjoutUtilisateur(NomUtilisateur, MdP, Privilege)
@@ -166,8 +187,6 @@ Public Class GestionFichier
 
     'Méthode qui ajoute les utilisateurs à la structure StructureUtilisateur et retourne true si l'ajout a fonctionné et false en cas d'échec
     Private Function AjoutUtilisateur(ByVal NomUtilisateur As String, ByVal MdP As String, ByVal Privilege As Integer) As Boolean
-        Dim Ligne As String
-        Dim LecteurFichier As StreamWriter
 
         Try
             'Ajout de l'utilisateur dans le tableau de structure
@@ -178,27 +197,35 @@ Public Class GestionFichier
             Utilisateurs(ILectureUtilisateurs).Privilege = CType(Privilege, String)
 
             'Ajout de l'utilisateur dans le fichier correspondant
-            LecteurFichier = New StreamWriter("./FichiersSauvegarde/Utilisateurs.csv", True, Encoding.UTF8)
+            Dim LecteurFichier As StreamWriter = New StreamWriter("./FichiersSauvegarde/Utilisateurs.csv", True, Encoding.UTF8)
+            Dim Ligne As String
+
             Ligne = MdP & ";" & NomUtilisateur & ";" & Privilege
             LecteurFichier.WriteLine(Ligne)
 
             LecteurFichier.Close()
+
+            'On créé le fichier de l'utilisateur
+            File.Create("./FichiersSauvegarde/" & IDUtilisateur & ".csv")
             Return True
 
         Catch ex As Exception
+            MessageBox.Show(ex.Message)
             Return False
-        End Try
 
+        End Try
     End Function
 
     'Méthode qui supprime un utilisateurs de la structure StructureUtilisateur et du fichier correspondant puis retourne true si l'ajout a fonctionné et false en cas d'échec
-    Private Function SuprUtilisateur(ByVal NomUtilisateur As String) As Boolean
-        Dim Comparateur As Integer
-        Dim Cpt As Integer
-        Dim i As Integer
-        Dim Provisoire() As StructureUtilisateur
+    Public Function SuprUtilisateur(ByVal NomUtilisateur As String) As Boolean
 
         Try
+
+            Dim Comparateur As Integer
+            Dim Cpt As Integer
+            Dim i As Integer
+            Dim Provisoire() As StructureUtilisateur
+
             'On repère où se trouve l'utilisateur dans le tableau
             Do
                 Comparateur = String.Compare(NomUtilisateur, Utilisateurs(Cpt).Pseudonyme)
@@ -232,23 +259,27 @@ Public Class GestionFichier
 
                         LecteurFichier.WriteLine(Utilisateurs(i).Pass & ";" & Utilisateurs(i).Pseudonyme & ";" & Utilisateurs(i).Privilege)
                     End If
-
+                    LecteurFichier.Close()
                     i += 1
                 Loop While (i - 1) <> ILectureUtilisateurs
 
+                'On supprime le fichier Agenda de l'utilisateur et son back up
+                File.Delete("./FichiersSauvegarde/" & IDUtilisateur & ".csv")
+                'File.delete("./FichiersSauvegarde/" & IDUtilisateur & ".csv")
                 Return True
             Else
                 Return False
             End If
 
         Catch ex As Exception
-            Return False
-        End Try
 
+            Return False
+
+        End Try
     End Function
 
     'Méthode qui modifie un utilisateur de la structure StructureUtilisateur ainsi que dans le fichier correspondant puis retourne true si la modification a fonctionné et false en cas d'échec
-    Public Function ModifUtilisateur(ByVal NomUtilisateur As String, ByVal NouveauNom As String, ByVal NouveauMdP As String, ByVal NouveauPrivilege As Integer) As Boolean
+    Private Function ModifUtilisateur(ByVal NomUtilisateur As String, ByVal NouveauNom As String, ByVal NouveauMdP As String, ByVal NouveauPrivilege As Integer) As Boolean
 
         Dim Cpt As Integer
         Dim Comparateur As Integer
@@ -284,37 +315,42 @@ Public Class GestionFichier
     'Ecrit dans le fichier ce que l'utilisateur veut sauvegarder à la date et à l'heure mentionnées
     Public Function EcritureFichierAgenda() As Boolean
 
-        Dim CptJours As Integer
-        Dim Fichier As String = "./FichiersSauvegarde/" & IDUtilisateur & ".csv"
-        Dim LecteurFichier As StreamWriter
-
         Try
-            LecteurFichier = New StreamWriter(Fichier, False, Encoding.UTF8)
+            Dim Cpt As Integer
+            Dim LigneAEcrire As String
+            Dim Fichier As String = "./FichiersSauvegarde/" & IDUtilisateur & ".csv"
+            Dim LecteurFichier As StreamWriter = New StreamWriter(Fichier, False, Encoding.UTF8)
+            Do
+                LigneAEcrire = Agenda.Index(Cpt) & ";" & Agenda.NNote(Cpt)
+                LecteurFichier.WriteLine(LigneAEcrire)
+                Cpt += 1
+            Loop While Cpt < ILectureAgenda
+
+            LecteurFichier.Close()
+            Return True
+
         Catch ex As Exception
+            MessageBox.Show(ex.Message)
             Return False
+
         End Try
-
-        Do
-            For CptHeures = 0 To 23
-                LecteurFichier.WriteLine(Agenda(CptJours).NNote(CptHeures))
-            Next
-            CptJours += 1
-        Loop While CptJours <> 366
-
-        LecteurFichier.Close()
-        Return True
-
     End Function
-
 
     'Ecrit dans la mémoire vive (structure) les nouvelles données, mais ne sauvegarde pas dans le fichier !
     Public Function EcritureAgenda(ByVal DateJour As Integer, ByVal DateHeure As Integer, ByVal Information As String) As Boolean
-        Try
-            Agenda(DateJour - 1).NNote(DateHeure) = Information
-            Return True
-        Catch ex As Exception
-            Return False
-        End Try
+        If Not (String.IsNullOrEmpty(Information) And String.IsNullOrWhiteSpace(Information)) Then
+            Try
+                Dim Index As Integer = (DateJour * 100) + DateHeure
+                ReDim Preserve Agenda.Index(ILectureAgenda)
+                ReDim Preserve Agenda.NNote(ILectureAgenda)
+                Agenda.Index(ILectureAgenda) = Index
+                Agenda.NNote(ILectureAgenda) = Information
+                ILectureAgenda += 1
+                Return True
+            Catch ex As Exception
+                Return False
+            End Try
+        End If
     End Function
 
 End Class

@@ -92,7 +92,6 @@ Partial Class FAgenda
         Me.TCCalendrier.Name = "TCCalendrier"
         Me.TCCalendrier.SelectedIndex = 0
         Me.TCCalendrier.Size = New System.Drawing.Size(1673, 999)
-        Me.TCCalendrier.SizeMode = System.Windows.Forms.TabSizeMode.Normal
         Me.TCCalendrier.TabIndex = 0
         '
         'TabPage1
@@ -597,7 +596,7 @@ Partial Class FAgenda
         Me.TBHeureRdv0.Margin = New System.Windows.Forms.Padding(4)
         Me.TBHeureRdv0.Name = "TBHeureRdv0"
         Me.TBHeureRdv0.Size = New System.Drawing.Size(999, 22)
-        Me.TBHeureRdv0.TabIndex = 1
+        Me.TBHeureRdv0.TabIndex = 0
         '
         'Calendrier
         '
