@@ -332,7 +332,7 @@ Public Class GestionFichier
 
     'Ecrit dans la mémoire vive (structure) les nouvelles données, mais ne sauvegarde pas dans le fichier !
     Public Function EcritureAgenda(ByVal DateJour As Integer, ByVal DateHeure As Integer, ByVal Information As String) As Boolean
-        If Not (String.IsNullOrEmpty(Information) And String.IsNullOrWhiteSpace(Information)) Then
+        If Not (String.IsNullOrEmpty(Information) Or String.IsNullOrWhiteSpace(Information)) Then
             Dim Index As Integer = (DateJour * 100) + DateHeure
             Try
                 ReDim Preserve Agenda.Index(ILectureAgenda)
