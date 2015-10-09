@@ -728,7 +728,7 @@ Partial Class FAgenda
         '
         Me.PrintPreviewDialogJour.AutoScrollMargin = New System.Drawing.Size(0, 0)
         Me.PrintPreviewDialogJour.AutoScrollMinSize = New System.Drawing.Size(0, 0)
-        Me.PrintPreviewDialogJour.ClientSize = New System.Drawing.Size(800, 1000)
+        Me.PrintPreviewDialogJour.ClientSize = New System.Drawing.Size(850, 1000)
         Me.PrintPreviewDialogJour.Enabled = True
         Me.PrintPreviewDialogJour.Icon = CType(resources.GetObject("PrintPreviewDialogJour.Icon"), System.Drawing.Icon)
         Me.PrintPreviewDialogJour.Name = "PrintPreviewDialogJour"

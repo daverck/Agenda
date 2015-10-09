@@ -1,4 +1,6 @@
-﻿Public Class FAgenda
+﻿Imports System.Drawing
+
+Public Class FAgenda
 
     Dim JourDeLAnnee As Integer
     Dim Imprimante As New Impression()
@@ -87,16 +89,20 @@
 
     Private Sub PrintDocumentJour_PrintPage(ByVal sender As System.Object, ByVal e As System.Drawing.Printing.PrintPageEventArgs) Handles PrintDocumentJour.PrintPage
         Dim Ligne As String
+        Static Dim Heure As Integer
+        Static Dim Page As Integer
         Dim Position As System.Drawing.PointF
         Dim Rectangle As RectangleF
         Dim RectangleTitre As RectangleF
+        Dim RectangleHeure As RectangleF
         Dim Police As Font
         Dim PoliceBold As Font
         Dim PoliceTitre As Font
         Dim HauteurLigne As Single
         Dim HauteurLigneTitre As Single
         Dim NbrLignesParPage As Integer
-        Dim NumLigne As Integer
+        Dim NumLigne As Integer = 1
+        Dim stringSize As New SizeF
 
         ' Dans cet exemple, toutes les lignes utilisent la même police
         Police = New Font("Courier New", 10, FontStyle.Regular)
@@ -104,42 +110,63 @@
         PoliceTitre = New Font("Courier New", 15, FontStyle.Bold)
         HauteurLigne = Police.GetHeight(e.Graphics)
         HauteurLigneTitre = PoliceTitre.GetHeight(e.Graphics)
-        Rectangle.Width = e.MarginBounds.Width
+        Rectangle.Width = e.MarginBounds.Width - 80
         Rectangle.Height = HauteurLigne
         RectangleTitre.Width = e.MarginBounds.Width
         RectangleTitre.Height = HauteurLigneTitre
+        RectangleHeure.Width = 80
+        RectangleHeure.Height = HauteurLigne
 
         ' Le Nombre de lignes par page est la hauteur de la zone imprimable ( - taille du titre) divisée par la hauteur d'une ligne
         NbrLignesParPage = (e.MarginBounds.Height - HauteurLigneTitre * 2) / HauteurLigne
 
-        ' Mise en page du Titre
-        Ligne = "Calendrier de " & FBase.TBNomUtil.Text & " : Notes du " & Calendrier.SelectionRange.Start.DayOfWeek.ToString & " " & Calendrier.SelectionRange.Start.Day.ToString & " " & Calendrier.SelectionRange.Start.Month.ToString & " " & Calendrier.SelectionRange.Start.Year.ToString
-        Position = New PointF(e.MarginBounds.Left, e.MarginBounds.Top)
-        RectangleTitre.Location = Position
-        e.Graphics.DrawString(Ligne, PoliceTitre, Brushes.Black, RectangleTitre)
+        'Titre sur la première page
+        If Page = 0 Then
+            ' Mise en page du Titre
+            Ligne = "Calendrier de " & FBase.TBNomUtil.Text & " : Notes du " & Calendrier.SelectionRange.Start.Day.ToString & "/" & Calendrier.SelectionRange.Start.Month.ToString & " au " & Calendrier.SelectionRange.End.Day & "/" & Calendrier.SelectionRange.End.Month & "/" & Calendrier.SelectionRange.Start.Year.ToString
+            Position = New PointF(e.MarginBounds.Left, e.MarginBounds.Top)
+            RectangleTitre.Location = Position
+            e.Graphics.DrawString(Ligne, PoliceTitre, Brushes.Black, RectangleTitre)
 
-        'ont saute une ligne sous le titre
-        Ligne = ""
-        Position = New PointF(e.MarginBounds.Left, e.MarginBounds.Top)
-        RectangleTitre.Location = Position
-        e.Graphics.DrawString(Ligne, PoliceTitre, Brushes.Black, RectangleTitre)
+            'ont saute une ligne sous le titre
+            Ligne = ""
+            Position = New PointF(e.MarginBounds.Left, e.MarginBounds.Top + HauteurLigneTitre)
+            RectangleTitre.Location = Position
+            e.Graphics.DrawString(Ligne, PoliceTitre, Brushes.Black, RectangleTitre)
+        End If
 
         ' Mise en page des horaires et des notes
-        'on met à jour les textboxs avec les notes inscrites précédement
-        For i As Integer = 0 To 23 Step 1
-            'heure
-            Ligne = i.ToString("D2") & "h-" & (i + 1).ToString("D2") & "h"
-            Position = New PointF(e.MarginBounds.Left, e.MarginBounds.Top + HauteurLigneTitre * 2 + (NumLigne * HauteurLigne))
-            Rectangle.Location = Position
-            e.Graphics.DrawString(Ligne, PoliceBold, Brushes.Black, Rectangle)
-            'note
-            Ligne = TBHeures(i).Text
+        Do
+            Ligne = TBHeures(Heure).Text
+            stringSize = e.Graphics.MeasureString(Ligne, Police)
+            Rectangle.Height = HauteurLigne + HauteurLigne * (stringSize.Width \ Rectangle.Width)
             Position = New PointF(e.MarginBounds.Left + 80, e.MarginBounds.Top + HauteurLigneTitre * 2 + (NumLigne * HauteurLigne))
-            Rectangle.Location = Position
-            e.Graphics.DrawString(Ligne, Police, Brushes.Black, Rectangle)
-            ' Comptage des lignes imprimées
-            NumLigne += 1
-        Next i
+            'si il y a assez de place sur la page
+            If (Position.Y + Rectangle.Height) <= (e.PageBounds.Height - e.PageSettings.HardMarginY) Then
+                'rectangle pour note
+                Rectangle.Location = Position
+                e.Graphics.DrawString(Ligne, Police, Brushes.Black, Rectangle)
+                'rectangle pour heure
+                Ligne = Heure.ToString("D2") & "h-" & (Heure + 1).ToString("D2") & "h"
+                Position = New PointF(e.MarginBounds.Left, e.MarginBounds.Top + HauteurLigneTitre * 2 + (NumLigne * HauteurLigne))
+                RectangleHeure.Location = Position
+                e.Graphics.DrawString(Ligne, PoliceBold, Brushes.Black, RectangleHeure)
+                ' Comptage des lignes imprimées
+                NumLigne += (stringSize.Width \ Rectangle.Width) + 1
+                Heure += 1
+            Else
+                e.HasMorePages = True
+                Exit Do
+            End If
+        Loop Until Heure > 23 Or (Position.Y + Rectangle.Height) > (e.PageBounds.Height - e.PageSettings.HardMarginY)
+
+        'après la dernière page imprimée on remet les compteurs à 0
+        If Heure = 24 Then
+            Heure = 0
+            Page = 0
+            e.HasMorePages = False
+        End If
+
     End Sub
 
     Private Sub BImprimer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BImprimer.Click
