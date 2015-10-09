@@ -154,8 +154,10 @@ Public Class FAgenda
                 ' Comptage des lignes imprimées
                 NumLigne += (stringSize.Width \ Rectangle.Width) + 1
                 Heure += 1
-                'Else If NumLigne > 'a faire
-
+            ElseIf (stringSize.Width \ Rectangle.Width) + 1 > NbrLignesParPage Then
+                MessageBox.Show("texte trop long pour être mis en page correctement !")
+                PrintPreviewDialogJour.Close()
+                Exit Sub
             Else
                 e.HasMorePages = True
                 Exit Do
