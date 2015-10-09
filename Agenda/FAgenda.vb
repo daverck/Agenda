@@ -154,6 +154,8 @@ Public Class FAgenda
                 ' Comptage des lignes imprimées
                 NumLigne += (stringSize.Width \ Rectangle.Width) + 1
                 Heure += 1
+                'Else If NumLigne > 'a faire
+
             Else
                 e.HasMorePages = True
                 Exit Do

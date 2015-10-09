@@ -334,7 +334,14 @@ Public Class GestionFichier
     Public Function EcritureAgenda(ByVal DateJour As Integer, ByVal DateHeure As Integer, ByVal Information As String) As Boolean
         If Not (String.IsNullOrEmpty(Information) Or String.IsNullOrWhiteSpace(Information)) Then
             Dim Index As Integer = (DateJour * 100) + DateHeure
+            Dim i As Integer
             Try
+                Do
+                    If Agenda.Index(i) = Index Then
+                        Agenda.NNote(i) = Information
+                    End If
+                    i += 1
+                Loop While i < ILectureAgenda
                 ReDim Preserve Agenda.Index(ILectureAgenda)
                 ReDim Preserve Agenda.NNote(ILectureAgenda)
                 Agenda.Index(ILectureAgenda) = Index
