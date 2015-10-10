@@ -8,7 +8,6 @@ Public Class FAgenda
 
     Private Sub FAgenda_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        Test()
         Me.StartPosition = FormStartPosition.Manual
         Me.Location = My.Computer.Screen.WorkingArea.Location
         Me.Size = My.Computer.Screen.WorkingArea.Size
@@ -180,11 +179,6 @@ Public Class FAgenda
             PrintPreviewDialogJour.Document = PrintDocumentJour
             PrintPreviewDialogJour.ShowDialog()
         End If
-    End Sub
-
-    Private Sub Test()
-        Dim Tableau() As String
-        Tableau = FBase.Gestion.DonnerUtilisateurs()
     End Sub
 
 End Class
