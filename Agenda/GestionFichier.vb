@@ -1,18 +1,18 @@
 ﻿Imports System.IO
 Imports System.Text
 
+Public Structure StructureAgenda
+    Dim Index() As String
+    Dim NNote() As String
+End Structure
+
+Public Structure StructureUtilisateur
+    Dim Pseudonyme As String
+    Dim Pass As String
+    Dim Privilege As String
+End Structure
+
 Public Class GestionFichier
-
-    Private Structure StructureUtilisateur
-        Dim Pseudonyme As String
-        Dim Pass As String
-        Dim Privilege As String
-    End Structure
-
-    Private Structure StructureAgenda
-        Dim Index() As String
-        Dim NNote() As String
-    End Structure
 
     Private ILectureUtilisateurs As Integer
     Private ILectureAgenda As Integer
@@ -332,26 +332,26 @@ Public Class GestionFichier
 
     'Ecrit dans la mémoire vive (structure) les nouvelles données, mais ne sauvegarde pas dans le fichier !
     Public Function EcritureAgenda(ByVal DateJour As Integer, ByVal DateHeure As Integer, ByVal Information As String) As Boolean
-        If Not (String.IsNullOrEmpty(Information) Or String.IsNullOrWhiteSpace(Information)) Then
-            Dim Index As Integer = (DateJour * 100) + DateHeure
-            Dim i As Integer
-            Try
+        Dim Index As Integer = (DateJour * 100) + DateHeure
+        Dim i As Integer
+        Try
+            If Not (String.IsNullOrEmpty(Information) Or String.IsNullOrWhiteSpace(Information)) Then
                 Do
                     If Agenda.Index(i) = Index Then
                         Agenda.NNote(i) = Information
                     End If
                     i += 1
                 Loop While i < ILectureAgenda
+
                 ReDim Preserve Agenda.Index(ILectureAgenda)
                 ReDim Preserve Agenda.NNote(ILectureAgenda)
                 Agenda.Index(ILectureAgenda) = Index
                 Agenda.NNote(ILectureAgenda) = Information
                 ILectureAgenda += 1
-                Return True
-            Catch ex As Exception
-                Return False
-            End Try
-        End If
+            End If
+            Return True
+        Catch ex As Exception
+            Return False
+        End Try
     End Function
-
 End Class
