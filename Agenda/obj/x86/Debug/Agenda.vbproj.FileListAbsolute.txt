@@ -1,0 +1,76 @@
+E:\POO\Labos\Agenda\Agenda\bin\Debug\Agenda.exe
+E:\POO\Labos\Agenda\Agenda\bin\Debug\Agenda.pdb
+E:\POO\Labos\Agenda\Agenda\bin\Debug\Agenda.xml
+E:\POO\Labos\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FBase.resources
+E:\POO\Labos\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FAgenda.resources
+E:\POO\Labos\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.Resources.resources
+E:\POO\Labos\Agenda\Agenda\obj\x86\Debug\Agenda.vbproj.GenerateResource.Cache
+E:\POO\Labos\Agenda\Agenda\obj\x86\Debug\Agenda.exe
+E:\POO\Labos\Agenda\Agenda\obj\x86\Debug\Agenda.xml
+E:\POO\Labos\Agenda\Agenda\obj\x86\Debug\Agenda.pdb
+E:\Agenda\Agenda\Agenda\obj\x86\Debug\Agenda.exe
+E:\Agenda\Agenda\Agenda\obj\x86\Debug\Agenda.xml
+E:\Agenda\Agenda\Agenda\obj\x86\Debug\Agenda.pdb
+E:\Agenda\Agenda\Agenda\bin\Debug\Agenda.exe
+E:\Agenda\Agenda\Agenda\bin\Debug\Agenda.pdb
+E:\Agenda\Agenda\Agenda\bin\Debug\Agenda.xml
+E:\Agenda\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FBase.resources
+E:\Agenda\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FAgenda.resources
+E:\Agenda\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.Resources.resources
+E:\Agenda\Agenda\Agenda\obj\x86\Debug\Agenda.vbproj.GenerateResource.Cache
+C:\Users\Etudiants\Downloads\Agenda\Agenda\obj\x86\Debug\Agenda.exe
+C:\Users\Etudiants\Downloads\Agenda\Agenda\obj\x86\Debug\Agenda.xml
+C:\Users\Etudiants\Downloads\Agenda\Agenda\obj\x86\Debug\Agenda.pdb
+C:\Users\Etudiants\Downloads\Agenda\Agenda\bin\Debug\Agenda.exe
+C:\Users\Etudiants\Downloads\Agenda\Agenda\bin\Debug\Agenda.pdb
+C:\Users\Etudiants\Downloads\Agenda\Agenda\bin\Debug\Agenda.xml
+C:\Users\Etudiants\Downloads\Agenda\Agenda\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Etudiants\Downloads\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FBase.resources
+C:\Users\Etudiants\Downloads\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FAgenda.resources
+C:\Users\Etudiants\Downloads\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.Resources.resources
+C:\Users\Etudiants\Downloads\Agenda\Agenda\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Etudiants\Downloads\Agenda\Agenda\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Smoa\Downloads\Agenda\Agenda\obj\x86\Debug\Agenda.exe
+C:\Users\Smoa\Downloads\Agenda\Agenda\obj\x86\Debug\Agenda.xml
+C:\Users\Smoa\Downloads\Agenda\Agenda\obj\x86\Debug\Agenda.pdb
+C:\Users\Smoa\Downloads\Agenda\Agenda\bin\Debug\Agenda.exe
+C:\Users\Smoa\Downloads\Agenda\Agenda\bin\Debug\Agenda.pdb
+C:\Users\Smoa\Downloads\Agenda\Agenda\bin\Debug\Agenda.xml
+C:\Users\Smoa\Downloads\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FBase.resources
+C:\Users\Smoa\Downloads\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FAgenda.resources
+C:\Users\Smoa\Downloads\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.Resources.resources
+C:\Users\Smoa\Downloads\Agenda\Agenda\obj\x86\Debug\Agenda.vbproj.GenerateResource.Cache
+C:\Users\Smoa\Downloads\Agenda\Agenda\obj\x86\Debug\Agenda.vbprojResolveAssemblyReference.cache
+D:\cours bac 2\technique de gestion de projet\travail de groupe\Agenda_kevin\Agenda\Agenda\obj\x86\Debug\Agenda.exe
+D:\cours bac 2\technique de gestion de projet\travail de groupe\Agenda_kevin\Agenda\Agenda\obj\x86\Debug\Agenda.xml
+D:\cours bac 2\technique de gestion de projet\travail de groupe\Agenda_kevin\Agenda\Agenda\obj\x86\Debug\Agenda.pdb
+D:\cours bac 2\technique de gestion de projet\travail de groupe\Agenda_kevin\Agenda\Agenda\bin\Debug\Agenda.exe
+D:\cours bac 2\technique de gestion de projet\travail de groupe\Agenda_kevin\Agenda\Agenda\bin\Debug\Agenda.pdb
+D:\cours bac 2\technique de gestion de projet\travail de groupe\Agenda_kevin\Agenda\Agenda\bin\Debug\Agenda.xml
+D:\cours bac 2\technique de gestion de projet\travail de groupe\Agenda_kevin\Agenda\Agenda\obj\x86\Debug\Agenda.vbprojResolveAssemblyReference.cache
+D:\cours bac 2\technique de gestion de projet\travail de groupe\Agenda_kevin\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FBase.resources
+D:\cours bac 2\technique de gestion de projet\travail de groupe\Agenda_kevin\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FAgenda.resources
+D:\cours bac 2\technique de gestion de projet\travail de groupe\Agenda_kevin\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.Resources.resources
+D:\cours bac 2\technique de gestion de projet\travail de groupe\Agenda_kevin\Agenda\Agenda\obj\x86\Debug\Agenda.vbproj.GenerateResource.Cache
+D:\cours bac 2\technique de gestion de projet\travail de groupe\agenda_github_repository\Agenda\Agenda\obj\x86\Debug\Agenda.exe
+D:\cours bac 2\technique de gestion de projet\travail de groupe\agenda_github_repository\Agenda\Agenda\obj\x86\Debug\Agenda.xml
+D:\cours bac 2\technique de gestion de projet\travail de groupe\agenda_github_repository\Agenda\Agenda\obj\x86\Debug\Agenda.pdb
+D:\cours bac 2\technique de gestion de projet\travail de groupe\agenda_github_repository\Agenda\Agenda\bin\Debug\Agenda.exe
+D:\cours bac 2\technique de gestion de projet\travail de groupe\agenda_github_repository\Agenda\Agenda\bin\Debug\Agenda.pdb
+D:\cours bac 2\technique de gestion de projet\travail de groupe\agenda_github_repository\Agenda\Agenda\bin\Debug\Agenda.xml
+D:\cours bac 2\technique de gestion de projet\travail de groupe\agenda_github_repository\Agenda\Agenda\obj\x86\Debug\Agenda.vbprojResolveAssemblyReference.cache
+D:\cours bac 2\technique de gestion de projet\travail de groupe\agenda_github_repository\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FBase.resources
+D:\cours bac 2\technique de gestion de projet\travail de groupe\agenda_github_repository\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FAgenda.resources
+D:\cours bac 2\technique de gestion de projet\travail de groupe\agenda_github_repository\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.Resources.resources
+D:\cours bac 2\technique de gestion de projet\travail de groupe\agenda_github_repository\Agenda\Agenda\obj\x86\Debug\Agenda.vbproj.GenerateResource.Cache
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\Agenda.exe
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\Agenda.xml
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\Agenda.pdb
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\bin\Debug\Agenda.exe
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\bin\Debug\Agenda.pdb
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\bin\Debug\Agenda.xml
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\Agenda.vbprojResolveAssemblyReference.cache
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FBase.resources
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FAgenda.resources
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.Resources.resources
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Debug\Agenda.vbproj.GenerateResource.Cache
