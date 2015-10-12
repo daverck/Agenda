@@ -181,4 +181,62 @@ Public Class FAgenda
         End If
     End Sub
 
+    Private Sub BCreerNouvUtil_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BCreerNouvUtil.Click
+
+        Dim Utilisateur As New ListViewItem
+        Dim Admin As Integer
+
+        Utilisateur.Text = TBNouvUtil.Text
+        Utilisateur.SubItems.Add(TBNouvMotPasse.Text)
+
+        If CBAdmin.Checked = True Then
+            Admin = 1
+        End If
+
+        LVUtil.Items.Add(Utilisateur)
+
+        FBase.Gestion.GestionUtilisateurs(TBNouvUtil.Text, TBNouvMotPasse.Text, 1, Admin)
+
+        TBNouvUtil.Text = ""
+        TBNouvMotPasse.Text = ""
+
+    End Sub
+
+    Private Sub BSupprimUtil_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BSupprimUtil.Click
+
+        If LVUtil.SelectedItems.Count > 0 Then
+            LVUtil.Items.Remove(LVUtil.SelectedItems(0))
+
+            FBase.Gestion.GestionUtilisateurs(TBNouvUtil.Text, TBNouvMotPasse.Text, 2)
+
+            TBNouvUtil.Text = ""
+            TBNouvMotPasse.Text = ""
+
+        End If
+
+    End Sub
+
+    Private Sub BModiF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BModiF.Click
+        If LVUtil.SelectedItems.Count > 0 Then
+            Dim Admin As Integer
+            
+            If CBAdmin.Checked = True Then
+                Admin = 1
+            End If
+
+            FBase.Gestion.ModifUtilisateur(LVUtil.SelectedItems(0).Text, TBNouvUtil.Text, TBNouvMotPasse.Text, Admin)
+
+            LVUtil.SelectedItems(0).Text = TBNouvUtil.Text
+            LVUtil.SelectedItems(0).SubItems(1).Text = TBNouvMotPasse.Text
+
+            TBNouvUtil.Text = ""
+            TBNouvMotPasse.Text = ""
+        End If
+    End Sub
+
+    Private Sub LVUtil_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LVUtil.SelectedIndexChanged
+        TBNouvUtil.Text = LVUtil.SelectedItems(0).Text
+        TBNouvMotPasse.Text = LVUtil.SelectedItems(0).SubItems(1).Text
+    End Sub
+
 End Class

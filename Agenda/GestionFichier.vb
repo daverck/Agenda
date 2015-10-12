@@ -274,7 +274,7 @@ Public Class GestionFichier
     End Function
 
     'Méthode qui modifie un utilisateur de la structure StructureUtilisateur ainsi que dans le fichier correspondant puis retourne true si la modification a fonctionné et false en cas d'échec
-    Private Function ModifUtilisateur(ByVal NomUtilisateur As String, ByVal NouveauNom As String, ByVal NouveauMdP As String, ByVal NouveauPrivilege As Integer) As Boolean
+    Public Function ModifUtilisateur(ByVal NomUtilisateur As String, ByVal NouveauNom As String, ByVal NouveauMdP As String, ByVal NouveauPrivilege As Integer) As Boolean
 
         Dim Cpt As Integer
         Dim Comparateur As Integer
