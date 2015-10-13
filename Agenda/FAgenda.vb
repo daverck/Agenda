@@ -12,6 +12,15 @@ Public Class FAgenda
         Me.Location = My.Computer.Screen.WorkingArea.Location
         Me.Size = My.Computer.Screen.WorkingArea.Size
 
+        LVUtilisateurs.FullRowSelect = True
+        LVUtilisateurs.View = View.Details
+        LVUtilisateurs.Columns.Add("Noms Utilisateurs :", 150, HorizontalAlignment.Left)
+        LVUtilisateurs.Columns.Add("Administrateurs :", 150, HorizontalAlignment.Left)
+        LVUtilisateurs.AllowColumnReorder = False
+        LVUtilisateurs.LabelEdit = False
+
+        MaListeUtilisateurs()
+
         'Limitation de la plage du widget calendrier à l'année courante
         Me.Calendrier.MinDate = New DateTime(DateTime.Now.Year, 1, 1)
         Me.Calendrier.MaxDate = New DateTime(DateTime.Now.Year, 12, 31)
@@ -52,6 +61,30 @@ Public Class FAgenda
 
         'selection de la premiere textbox
         TBHeureRdv0.Select()
+    End Sub
+
+    Private Sub MaListeUtilisateurs()
+        Dim ListeUtilisateursNoms() As String
+        Dim ListeUtilisateursPrivilege() As String
+        Dim i As Integer
+        Dim Privilege As String
+
+        ListeUtilisateursNoms = FBase.Gestion.DonnerUtilisateurs()
+        ListeUtilisateursPrivilege = FBase.Gestion.DonnerPrivilieges()
+
+        Dim MaLigne As ListViewItem
+
+        For Each Valeur In ListeUtilisateursNoms
+            MaLigne = LVUtilisateurs.Items.Add(Valeur)
+            If ListeUtilisateursPrivilege(i) = 1 Then
+                Privilege = "Administrateur"
+            Else
+                Privilege = "Utilisateur"
+            End If
+            MaLigne.SubItems.Add(Privilege)
+            i += 1
+        Next
+
     End Sub
 
     Private Sub FAgenda_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing

@@ -75,6 +75,23 @@ Public Class GestionFichier
 
     End Function
 
+
+    Public Function DonnerPrivilieges() As String()
+        Dim MonTableau() As String
+        Dim i As Integer
+        For Each Valeur In Utilisateurs
+            ReDim Preserve MonTableau(i)
+            MonTableau(i) = Valeur.Privilege
+            i += 1
+        Next
+        If MonTableau IsNot Nothing And MonTableau.Length > 0 Then
+
+            Return MonTableau
+
+        Else : Return Nothing
+        End If
+    End Function
+
     'Méthode de vérification d'utilisateur renvoie -1 ou 0 ou 1 (-1 : N'existe pas ou erreur de MdP/0 : utilisateur/1 : Admin)
     Public Function VerificationUtilisateur(ByVal MdP As String, ByVal NomUtilisateur As String) As Integer
 
