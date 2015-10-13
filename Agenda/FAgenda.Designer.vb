@@ -64,6 +64,8 @@ Partial Class FAgenda
         Me.TBHeureRdv0 = New System.Windows.Forms.TextBox()
         Me.Calendrier = New System.Windows.Forms.MonthCalendar()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.LVUtilisateurs = New System.Windows.Forms.ListView()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.CBAdmin = New System.Windows.Forms.CheckBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.BSupprimUtil = New System.Windows.Forms.Button()
@@ -76,8 +78,6 @@ Partial Class FAgenda
         Me.PrintDocumentJour = New System.Drawing.Printing.PrintDocument()
         Me.PageSetupDialogJour = New System.Windows.Forms.PageSetupDialog()
         Me.PrintPreviewDialogJour = New System.Windows.Forms.PrintPreviewDialog()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.LVUtilisateurs = New System.Windows.Forms.ListView()
         Me.TCCalendrier.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -150,7 +150,7 @@ Partial Class FAgenda
         Me.TabPage1.Controls.Add(Me.Calendrier)
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3, 3, 3, 3)
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage1.Size = New System.Drawing.Size(1247, 786)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Rendez-Vous"
@@ -160,7 +160,7 @@ Partial Class FAgenda
         '
         Me.BImprimer.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.0!)
         Me.BImprimer.Location = New System.Drawing.Point(62, 680)
-        Me.BImprimer.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.BImprimer.Margin = New System.Windows.Forms.Padding(2)
         Me.BImprimer.Name = "BImprimer"
         Me.BImprimer.Size = New System.Drawing.Size(162, 46)
         Me.BImprimer.TabIndex = 49
@@ -576,11 +576,28 @@ Partial Class FAgenda
         Me.TabPage2.Controls.Add(Me.TBNouvUtil)
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3, 3, 3, 3)
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage2.Size = New System.Drawing.Size(1247, 786)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Ajout Utilisateur"
         Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'LVUtilisateurs
+        '
+        Me.LVUtilisateurs.Location = New System.Drawing.Point(426, 408)
+        Me.LVUtilisateurs.Name = "LVUtilisateurs"
+        Me.LVUtilisateurs.Size = New System.Drawing.Size(328, 266)
+        Me.LVUtilisateurs.TabIndex = 10
+        Me.LVUtilisateurs.UseCompatibleStateImageBehavior = False
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(550, 324)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 9
+        Me.Button1.Text = "Modifier"
+        Me.Button1.UseVisualStyleBackColor = True
         '
         'CBAdmin
         '
@@ -677,23 +694,6 @@ Partial Class FAgenda
         Me.PrintPreviewDialogJour.Icon = CType(resources.GetObject("PrintPreviewDialogJour.Icon"), System.Drawing.Icon)
         Me.PrintPreviewDialogJour.Name = "PrintPreviewDialogJour"
         Me.PrintPreviewDialogJour.Visible = False
-        '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(550, 324)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 9
-        Me.Button1.Text = "BModifier"
-        Me.Button1.UseVisualStyleBackColor = True
-        '
-        'LVUtilisateurs
-        '
-        Me.LVUtilisateurs.Location = New System.Drawing.Point(426, 408)
-        Me.LVUtilisateurs.Name = "LVUtilisateurs"
-        Me.LVUtilisateurs.Size = New System.Drawing.Size(328, 266)
-        Me.LVUtilisateurs.TabIndex = 10
-        Me.LVUtilisateurs.UseCompatibleStateImageBehavior = False
         '
         'FAgenda
         '

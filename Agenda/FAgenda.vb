@@ -63,6 +63,7 @@ Public Class FAgenda
         TBHeureRdv0.Select()
     End Sub
 
+    'Procédure qui ajoute les utilisateurs à la ListView
     Private Sub MaListeUtilisateurs()
         Dim ListeUtilisateursNoms() As String
         Dim ListeUtilisateursPrivilege() As String
@@ -85,6 +86,17 @@ Public Class FAgenda
             i += 1
         Next
 
+    End Sub
+
+    Private Sub LVUtilisateurs_Click(sender As Object, e As EventArgs) Handles LVUtilisateurs.Click
+
+        Dim MonItem As ListViewItem = LVUtilisateurs.SelectedItems(0)
+        TBNouvUtil.Text = MonItem.SubItems(0).Text
+        If (MonItem.SubItems(1).Text) = "Administrateur" Then
+            CBAdmin.Checked = True
+        Else
+            CBAdmin.Checked = False
+        End If
     End Sub
 
     Private Sub FAgenda_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
