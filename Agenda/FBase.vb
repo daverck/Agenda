@@ -10,15 +10,17 @@
 
         If Verification = -1 Then
             MessageBox.Show("Nom d'utilisateur ou mot de passe incorrect !")
-            TBMotPasse.Text = ""
-            TBNomUtil.Text = ""
         ElseIf Verification = 0 Then
+            FAgenda.TCCalendrier.TabPages.Remove(FAgenda.TPUtilisateur)
             FAgenda.Show()
             Me.Visible = False
         Else
             FAgenda.Show()
             Me.Visible = False
         End If
+
+        TBMotPasse.Text = ""
+        TBNomUtil.Text = ""
     End Sub
 
 End Class
