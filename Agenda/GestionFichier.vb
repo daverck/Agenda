@@ -368,6 +368,7 @@ Public Class GestionFichier
                 Cpt += 1
             Loop While Cpt < ILectureAgenda
 
+            Capteur = 0
             LecteurFichier.Close()
             Return True
 
@@ -381,14 +382,17 @@ Public Class GestionFichier
     Public Function EcritureAgenda(ByVal DateJour As Integer, ByVal DateHeure As Integer, ByVal Information As String) As Boolean
         Dim Index As Integer = (DateJour * 100) + DateHeure
         Dim i As Integer
+        Dim Nouveau As Boolean = False
         Try
             If Not (String.IsNullOrEmpty(Information) Or String.IsNullOrWhiteSpace(Information)) Then
-                Do
+                For i = 0 To ILectureAgenda - 1
                     If Agenda.Index(i) = Index Then
                         Agenda.NNote(i) = Information
+                        Return True
+                    ElseIf Nouveau = False Then
+                        Nouveau = True
                     End If
-                    i += 1
-                Loop While i < ILectureAgenda
+                Next
 
                 ReDim Preserve Agenda.Index(ILectureAgenda)
                 ReDim Preserve Agenda.NNote(ILectureAgenda)
