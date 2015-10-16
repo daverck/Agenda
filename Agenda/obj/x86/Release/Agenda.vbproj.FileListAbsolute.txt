@@ -1,0 +1,10 @@
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\bin\Release\Agenda.exe
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\bin\Release\Agenda.pdb
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\bin\Release\Agenda.xml
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Release\WindowsApplication1.FBase.resources
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Release\WindowsApplication1.FAgenda.resources
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Release\WindowsApplication1.Resources.resources
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Release\Agenda.vbproj.GenerateResource.Cache
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Release\Agenda.exe
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Release\Agenda.xml
+C:\Users\Smoa\Documents\GitHub\Agenda\Agenda\obj\x86\Release\Agenda.pdb

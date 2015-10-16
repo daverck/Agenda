@@ -12,7 +12,7 @@ Partial Class FAgenda
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FAgenda))
         Me.TCCalendrier = New System.Windows.Forms.TabControl()
-        Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.TPAgenda = New System.Windows.Forms.TabPage()
         Me.BImprimer = New System.Windows.Forms.Button()
         Me.TBHeureRdv23 = New System.Windows.Forms.TextBox()
         Me.TBHeureRdv22 = New System.Windows.Forms.TextBox()
@@ -63,12 +63,9 @@ Partial Class FAgenda
         Me.LB_00_01h = New System.Windows.Forms.Label()
         Me.TBHeureRdv0 = New System.Windows.Forms.TextBox()
         Me.Calendrier = New System.Windows.Forms.MonthCalendar()
-        Me.TabPage2 = New System.Windows.Forms.TabPage()
-        Me.LVUtil = New System.Windows.Forms.ListView()
-        Me.Nom = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.MDP = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.Privilege = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.BModiF = New System.Windows.Forms.Button()
+        Me.TPUtilisateur = New System.Windows.Forms.TabPage()
+        Me.LVUtilisateurs = New System.Windows.Forms.ListView()
+        Me.BModifier = New System.Windows.Forms.Button()
         Me.CBAdmin = New System.Windows.Forms.CheckBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.BSupprimUtil = New System.Windows.Forms.Button()
@@ -81,15 +78,16 @@ Partial Class FAgenda
         Me.PrintDocumentJour = New System.Drawing.Printing.PrintDocument()
         Me.PageSetupDialogJour = New System.Windows.Forms.PageSetupDialog()
         Me.PrintPreviewDialogJour = New System.Windows.Forms.PrintPreviewDialog()
+        Me.BDeconnexion = New System.Windows.Forms.Button()
         Me.TCCalendrier.SuspendLayout()
-        Me.TabPage1.SuspendLayout()
-        Me.TabPage2.SuspendLayout()
+        Me.TPAgenda.SuspendLayout()
+        Me.TPUtilisateur.SuspendLayout()
         Me.SuspendLayout()
         '
         'TCCalendrier
         '
-        Me.TCCalendrier.Controls.Add(Me.TabPage1)
-        Me.TCCalendrier.Controls.Add(Me.TabPage2)
+        Me.TCCalendrier.Controls.Add(Me.TPAgenda)
+        Me.TCCalendrier.Controls.Add(Me.TPUtilisateur)
         Me.TCCalendrier.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TCCalendrier.Location = New System.Drawing.Point(0, 0)
         Me.TCCalendrier.Multiline = True
@@ -98,70 +96,71 @@ Partial Class FAgenda
         Me.TCCalendrier.Size = New System.Drawing.Size(1255, 812)
         Me.TCCalendrier.TabIndex = 0
         '
-        'TabPage1
+        'TPAgenda
         '
-        Me.TabPage1.AutoScroll = True
-        Me.TabPage1.Controls.Add(Me.BImprimer)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv23)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv22)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv21)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv20)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv19)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv18)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv17)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv16)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv15)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv14)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv13)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv12)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv11)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv10)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv9)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv8)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv7)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv6)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv5)
-        Me.TabPage1.Controls.Add(Me.LB_23_00h)
-        Me.TabPage1.Controls.Add(Me.LB_22_23h)
-        Me.TabPage1.Controls.Add(Me.LB_21_22h)
-        Me.TabPage1.Controls.Add(Me.LB_20_21h)
-        Me.TabPage1.Controls.Add(Me.LB_19_20h)
-        Me.TabPage1.Controls.Add(Me.LB_18_19h)
-        Me.TabPage1.Controls.Add(Me.LB_17_18h)
-        Me.TabPage1.Controls.Add(Me.LB_16_17h)
-        Me.TabPage1.Controls.Add(Me.LB_15_16h)
-        Me.TabPage1.Controls.Add(Me.LB_14_15h)
-        Me.TabPage1.Controls.Add(Me.LB_13_14h)
-        Me.TabPage1.Controls.Add(Me.LB_12_13h)
-        Me.TabPage1.Controls.Add(Me.LB_11_12h)
-        Me.TabPage1.Controls.Add(Me.LB_10_11h)
-        Me.TabPage1.Controls.Add(Me.LB_09_10h)
-        Me.TabPage1.Controls.Add(Me.LB_08_09h)
-        Me.TabPage1.Controls.Add(Me.LB_07_08h)
-        Me.TabPage1.Controls.Add(Me.LB_06_07h)
-        Me.TabPage1.Controls.Add(Me.LB_05_06h)
-        Me.TabPage1.Controls.Add(Me.LB_04_05h)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv4)
-        Me.TabPage1.Controls.Add(Me.LB_03_04h)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv3)
-        Me.TabPage1.Controls.Add(Me.LB_02_03h)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv2)
-        Me.TabPage1.Controls.Add(Me.LB_01_02h)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv1)
-        Me.TabPage1.Controls.Add(Me.LB_00_01h)
-        Me.TabPage1.Controls.Add(Me.TBHeureRdv0)
-        Me.TabPage1.Controls.Add(Me.Calendrier)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(1247, 786)
-        Me.TabPage1.TabIndex = 0
-        Me.TabPage1.Text = "Rendez-Vous"
-        Me.TabPage1.UseVisualStyleBackColor = True
+        Me.TPAgenda.AutoScroll = True
+        Me.TPAgenda.Controls.Add(Me.BDeconnexion)
+        Me.TPAgenda.Controls.Add(Me.BImprimer)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv23)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv22)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv21)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv20)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv19)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv18)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv17)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv16)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv15)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv14)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv13)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv12)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv11)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv10)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv9)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv8)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv7)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv6)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv5)
+        Me.TPAgenda.Controls.Add(Me.LB_23_00h)
+        Me.TPAgenda.Controls.Add(Me.LB_22_23h)
+        Me.TPAgenda.Controls.Add(Me.LB_21_22h)
+        Me.TPAgenda.Controls.Add(Me.LB_20_21h)
+        Me.TPAgenda.Controls.Add(Me.LB_19_20h)
+        Me.TPAgenda.Controls.Add(Me.LB_18_19h)
+        Me.TPAgenda.Controls.Add(Me.LB_17_18h)
+        Me.TPAgenda.Controls.Add(Me.LB_16_17h)
+        Me.TPAgenda.Controls.Add(Me.LB_15_16h)
+        Me.TPAgenda.Controls.Add(Me.LB_14_15h)
+        Me.TPAgenda.Controls.Add(Me.LB_13_14h)
+        Me.TPAgenda.Controls.Add(Me.LB_12_13h)
+        Me.TPAgenda.Controls.Add(Me.LB_11_12h)
+        Me.TPAgenda.Controls.Add(Me.LB_10_11h)
+        Me.TPAgenda.Controls.Add(Me.LB_09_10h)
+        Me.TPAgenda.Controls.Add(Me.LB_08_09h)
+        Me.TPAgenda.Controls.Add(Me.LB_07_08h)
+        Me.TPAgenda.Controls.Add(Me.LB_06_07h)
+        Me.TPAgenda.Controls.Add(Me.LB_05_06h)
+        Me.TPAgenda.Controls.Add(Me.LB_04_05h)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv4)
+        Me.TPAgenda.Controls.Add(Me.LB_03_04h)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv3)
+        Me.TPAgenda.Controls.Add(Me.LB_02_03h)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv2)
+        Me.TPAgenda.Controls.Add(Me.LB_01_02h)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv1)
+        Me.TPAgenda.Controls.Add(Me.LB_00_01h)
+        Me.TPAgenda.Controls.Add(Me.TBHeureRdv0)
+        Me.TPAgenda.Controls.Add(Me.Calendrier)
+        Me.TPAgenda.Location = New System.Drawing.Point(4, 22)
+        Me.TPAgenda.Name = "TPAgenda"
+        Me.TPAgenda.Padding = New System.Windows.Forms.Padding(3)
+        Me.TPAgenda.Size = New System.Drawing.Size(1247, 786)
+        Me.TPAgenda.TabIndex = 0
+        Me.TPAgenda.Text = "Rendez-Vous"
+        Me.TPAgenda.UseVisualStyleBackColor = True
         '
         'BImprimer
         '
-        Me.BImprimer.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.0!)
+        Me.BImprimer.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.0!)
         Me.BImprimer.Location = New System.Drawing.Point(62, 680)
         Me.BImprimer.Margin = New System.Windows.Forms.Padding(2)
         Me.BImprimer.Name = "BImprimer"
@@ -563,66 +562,49 @@ Partial Class FAgenda
         Me.Calendrier.ScrollChange = 3
         Me.Calendrier.TabIndex = 0
         '
-        'TabPage2
+        'TPUtilisateur
         '
-        Me.TabPage2.AutoScroll = True
-        Me.TabPage2.Controls.Add(Me.LVUtil)
-        Me.TabPage2.Controls.Add(Me.BModiF)
-        Me.TabPage2.Controls.Add(Me.CBAdmin)
-        Me.TabPage2.Controls.Add(Me.Label9)
-        Me.TabPage2.Controls.Add(Me.BSupprimUtil)
-        Me.TabPage2.Controls.Add(Me.BCreerNouvUtil)
-        Me.TabPage2.Controls.Add(Me.Label8)
-        Me.TabPage2.Controls.Add(Me.Label7)
-        Me.TabPage2.Controls.Add(Me.TBNouvMotPasse)
-        Me.TabPage2.Controls.Add(Me.Label6)
-        Me.TabPage2.Controls.Add(Me.TBNouvUtil)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(1247, 786)
-        Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Ajout Utilisateur"
-        Me.TabPage2.UseVisualStyleBackColor = True
+        Me.TPUtilisateur.AutoScroll = True
+        Me.TPUtilisateur.Controls.Add(Me.LVUtilisateurs)
+        Me.TPUtilisateur.Controls.Add(Me.BModifier)
+        Me.TPUtilisateur.Controls.Add(Me.CBAdmin)
+        Me.TPUtilisateur.Controls.Add(Me.Label9)
+        Me.TPUtilisateur.Controls.Add(Me.BSupprimUtil)
+        Me.TPUtilisateur.Controls.Add(Me.BCreerNouvUtil)
+        Me.TPUtilisateur.Controls.Add(Me.Label8)
+        Me.TPUtilisateur.Controls.Add(Me.Label7)
+        Me.TPUtilisateur.Controls.Add(Me.TBNouvMotPasse)
+        Me.TPUtilisateur.Controls.Add(Me.Label6)
+        Me.TPUtilisateur.Controls.Add(Me.TBNouvUtil)
+        Me.TPUtilisateur.Location = New System.Drawing.Point(4, 22)
+        Me.TPUtilisateur.Name = "TPUtilisateur"
+        Me.TPUtilisateur.Padding = New System.Windows.Forms.Padding(3)
+        Me.TPUtilisateur.Size = New System.Drawing.Size(1247, 786)
+        Me.TPUtilisateur.TabIndex = 1
+        Me.TPUtilisateur.Text = "Ajout Utilisateur"
+        Me.TPUtilisateur.UseVisualStyleBackColor = True
         '
-        'LVUtil
+        'LVUtilisateurs
         '
-        Me.LVUtil.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Nom, Me.MDP, Me.Privilege})
-        Me.LVUtil.Location = New System.Drawing.Point(437, 215)
-        Me.LVUtil.Name = "LVUtil"
-        Me.LVUtil.Size = New System.Drawing.Size(306, 240)
-        Me.LVUtil.TabIndex = 10
-        Me.LVUtil.UseCompatibleStateImageBehavior = False
-        Me.LVUtil.View = System.Windows.Forms.View.Details
+        Me.LVUtilisateurs.Location = New System.Drawing.Point(426, 408)
+        Me.LVUtilisateurs.Name = "LVUtilisateurs"
+        Me.LVUtilisateurs.Size = New System.Drawing.Size(328, 266)
+        Me.LVUtilisateurs.TabIndex = 10
+        Me.LVUtilisateurs.UseCompatibleStateImageBehavior = False
         '
-        'Nom
+        'BModifier
         '
-        Me.Nom.Text = "Nom"
-        Me.Nom.Width = 131
-        '
-        'MDP
-        '
-        Me.MDP.Text = "Mot de passe"
-        Me.MDP.Width = 118
-        '
-        'Privilege
-        '
-        Me.Privilege.Text = "Privilège"
-        Me.Privilege.Width = 52
-        '
-        'BModiF
-        '
-        Me.BModiF.Location = New System.Drawing.Point(550, 173)
-        Me.BModiF.Name = "BModiF"
-        Me.BModiF.Size = New System.Drawing.Size(75, 23)
-        Me.BModiF.TabIndex = 9
-        Me.BModiF.Text = "Modifier"
-        Me.BModiF.UseVisualStyleBackColor = True
+        Me.BModifier.Location = New System.Drawing.Point(550, 324)
+        Me.BModifier.Name = "BModifier"
+        Me.BModifier.Size = New System.Drawing.Size(75, 23)
+        Me.BModifier.TabIndex = 9
+        Me.BModifier.Text = "Modifier"
+        Me.BModifier.UseVisualStyleBackColor = True
         '
         'CBAdmin
         '
         Me.CBAdmin.AutoSize = True
-        Me.CBAdmin.Location = New System.Drawing.Point(437, 146)
+        Me.CBAdmin.Location = New System.Drawing.Point(437, 257)
         Me.CBAdmin.Name = "CBAdmin"
         Me.CBAdmin.Size = New System.Drawing.Size(15, 14)
         Me.CBAdmin.TabIndex = 8
@@ -631,7 +613,7 @@ Partial Class FAgenda
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(303, 147)
+        Me.Label9.Location = New System.Drawing.Point(309, 257)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(79, 13)
         Me.Label9.TabIndex = 7
@@ -639,7 +621,7 @@ Partial Class FAgenda
         '
         'BSupprimUtil
         '
-        Me.BSupprimUtil.Location = New System.Drawing.Point(668, 173)
+        Me.BSupprimUtil.Location = New System.Drawing.Point(668, 324)
         Me.BSupprimUtil.Name = "BSupprimUtil"
         Me.BSupprimUtil.Size = New System.Drawing.Size(75, 23)
         Me.BSupprimUtil.TabIndex = 6
@@ -648,7 +630,7 @@ Partial Class FAgenda
         '
         'BCreerNouvUtil
         '
-        Me.BCreerNouvUtil.Location = New System.Drawing.Point(437, 173)
+        Me.BCreerNouvUtil.Location = New System.Drawing.Point(437, 324)
         Me.BCreerNouvUtil.Name = "BCreerNouvUtil"
         Me.BCreerNouvUtil.Size = New System.Drawing.Size(75, 23)
         Me.BCreerNouvUtil.TabIndex = 5
@@ -658,7 +640,7 @@ Partial Class FAgenda
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(303, 119)
+        Me.Label8.Location = New System.Drawing.Point(306, 179)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(77, 13)
         Me.Label8.TabIndex = 4
@@ -667,7 +649,7 @@ Partial Class FAgenda
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(303, 88)
+        Me.Label7.Location = New System.Drawing.Point(303, 119)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(35, 13)
         Me.Label7.TabIndex = 3
@@ -675,7 +657,7 @@ Partial Class FAgenda
         '
         'TBNouvMotPasse
         '
-        Me.TBNouvMotPasse.Location = New System.Drawing.Point(437, 112)
+        Me.TBNouvMotPasse.Location = New System.Drawing.Point(437, 172)
         Me.TBNouvMotPasse.Name = "TBNouvMotPasse"
         Me.TBNouvMotPasse.Size = New System.Drawing.Size(306, 20)
         Me.TBNouvMotPasse.TabIndex = 2
@@ -691,7 +673,7 @@ Partial Class FAgenda
         '
         'TBNouvUtil
         '
-        Me.TBNouvUtil.Location = New System.Drawing.Point(437, 81)
+        Me.TBNouvUtil.Location = New System.Drawing.Point(437, 112)
         Me.TBNouvUtil.Name = "TBNouvUtil"
         Me.TBNouvUtil.Size = New System.Drawing.Size(306, 20)
         Me.TBNouvUtil.TabIndex = 0
@@ -715,6 +697,16 @@ Partial Class FAgenda
         Me.PrintPreviewDialogJour.Name = "PrintPreviewDialogJour"
         Me.PrintPreviewDialogJour.Visible = False
         '
+        'BDeconnexion
+        '
+        Me.BDeconnexion.Font = New System.Drawing.Font("Microsoft Sans Serif", 16.25!)
+        Me.BDeconnexion.Location = New System.Drawing.Point(62, 621)
+        Me.BDeconnexion.Name = "BDeconnexion"
+        Me.BDeconnexion.Size = New System.Drawing.Size(162, 46)
+        Me.BDeconnexion.TabIndex = 50
+        Me.BDeconnexion.Text = "Déconnexion"
+        Me.BDeconnexion.UseVisualStyleBackColor = True
+        '
         'FAgenda
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -724,17 +716,17 @@ Partial Class FAgenda
         Me.Name = "FAgenda"
         Me.Text = "Agenda / Calendrier"
         Me.TCCalendrier.ResumeLayout(False)
-        Me.TabPage1.ResumeLayout(False)
-        Me.TabPage1.PerformLayout()
-        Me.TabPage2.ResumeLayout(False)
-        Me.TabPage2.PerformLayout()
+        Me.TPAgenda.ResumeLayout(False)
+        Me.TPAgenda.PerformLayout()
+        Me.TPUtilisateur.ResumeLayout(False)
+        Me.TPUtilisateur.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents TCCalendrier As System.Windows.Forms.TabControl
-    Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
+    Friend WithEvents TPAgenda As System.Windows.Forms.TabPage
     Friend WithEvents Calendrier As System.Windows.Forms.MonthCalendar
-    Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
+    Friend WithEvents TPUtilisateur As System.Windows.Forms.TabPage
     Friend WithEvents LB_04_05h As System.Windows.Forms.Label
     Friend WithEvents TBHeureRdv4 As System.Windows.Forms.TextBox
     Friend WithEvents LB_03_04h As System.Windows.Forms.Label
@@ -796,9 +788,7 @@ Partial Class FAgenda
     Friend WithEvents PrintDocumentJour As System.Drawing.Printing.PrintDocument
     Friend WithEvents PageSetupDialogJour As System.Windows.Forms.PageSetupDialog
     Friend WithEvents PrintPreviewDialogJour As System.Windows.Forms.PrintPreviewDialog
-    Friend WithEvents BModiF As System.Windows.Forms.Button
-    Friend WithEvents LVUtil As System.Windows.Forms.ListView
-    Friend WithEvents Nom As System.Windows.Forms.ColumnHeader
-    Friend WithEvents MDP As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Privilege As System.Windows.Forms.ColumnHeader
+    Friend WithEvents LVUtilisateurs As System.Windows.Forms.ListView
+    Friend WithEvents BModifier As System.Windows.Forms.Button
+    Friend WithEvents BDeconnexion As System.Windows.Forms.Button
 End Class

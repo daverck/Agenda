@@ -1,24 +1,25 @@
 ﻿Imports System.IO
 Imports System.Text
 
+Public Structure StructureAgenda
+    Dim Index() As String
+    Dim NNote() As String
+End Structure
+
+Public Structure StructureUtilisateur
+    Dim Pseudonyme As String
+    Dim Pass As String
+    Dim Privilege As String
+End Structure
+
 Public Class GestionFichier
-
-    Private Structure StructureUtilisateur
-        Dim Pseudonyme As String
-        Dim Pass As String
-        Dim Privilege As String
-    End Structure
-
-    Private Structure StructureAgenda
-        Dim Index() As String
-        Dim NNote() As String
-    End Structure
 
     Private ILectureUtilisateurs As Integer
     Private ILectureAgenda As Integer
     Private Utilisateurs() As StructureUtilisateur
     Private Agenda As StructureAgenda
 
+    Private Capteur As Integer
     Private IDUtilisateur As String
 
     'Procédure de lecture du fichier regroupant les utilisateurs
@@ -57,6 +58,41 @@ Public Class GestionFichier
         End Try
     End Sub
 
+    'Méthode qui retourne un tableau reprenant l'ensemble des utilisateurs, si pas d'utilisateur, retourne nothing
+    Public Function DonnerUtilisateurs() As String()
+        Dim MonTableau() As String
+        Dim i As Integer
+        For Each Valeur In Utilisateurs
+            ReDim Preserve MonTableau(i)
+            MonTableau(i) = Valeur.Pseudonyme
+            i += 1
+        Next
+        If MonTableau IsNot Nothing And MonTableau.Length > 0 Then
+
+            Return MonTableau
+
+        Else : Return Nothing
+        End If
+
+    End Function
+
+
+    Public Function DonnerPrivilieges() As String()
+        Dim MonTableau() As String
+        Dim i As Integer
+        For Each Valeur In Utilisateurs
+            ReDim Preserve MonTableau(i)
+            MonTableau(i) = Valeur.Privilege
+            i += 1
+        Next
+        If MonTableau IsNot Nothing And MonTableau.Length > 0 Then
+
+            Return MonTableau
+
+        Else : Return Nothing
+        End If
+    End Function
+
     'Méthode de vérification d'utilisateur renvoie -1 ou 0 ou 1 (-1 : N'existe pas ou erreur de MdP/0 : utilisateur/1 : Admin)
     Public Function VerificationUtilisateur(ByVal MdP As String, ByVal NomUtilisateur As String) As Integer
 
@@ -79,6 +115,7 @@ Public Class GestionFichier
 
         'On vérifie son niveau de privilège
         If Comparateur = 0 Then
+            Capteur = 0
             IDUtilisateur = Utilisateurs(Cpt - 1).Pseudonyme
             Privilege = CType((Utilisateurs(Cpt - 1).Privilege), Integer)
             Comparateur += Privilege
@@ -136,7 +173,6 @@ Public Class GestionFichier
             Dim Informations As String
             Dim i As Integer
             Dim Compare As Integer = -1
-            Static Capteur As Integer
             Dim Fichier As String = "./FichiersSauvegarde/" & IDUtilisateur & ".csv"
 
             'Si l'on n'a pas encore chargé les données venant du fichier, on lance son chargement
@@ -169,21 +205,23 @@ Public Class GestionFichier
     End Function
 
     'Méthode de gestion des utilisateurs proposant deux choix : l'ajout, le retrait d'un utilisateur
-    Public Function GestionUtilisateurs(ByVal NomUtilisateur As String, ByVal MdP As String, ByVal AjoutSupr As Integer, Optional ByVal Privilege As Integer = 0) As Boolean
+    Public Function GestionUtilisateurs(ByVal NomUtilisateur As String, ByVal AjoutSupr As Integer, Optional ByVal MdP As String = "", Optional ByVal Privilege As Integer = 0) As Boolean
         Dim Verif As Boolean
         Select Case AjoutSupr
             Case 1
-                Verif = AjoutUtilisateur(NomUtilisateur, MdP, Privilege)
+                If MdP = "" Then
+                    Return False
+                End If
+                Return Verif = AjoutUtilisateur(NomUtilisateur, MdP, Privilege)
             Case 2
-                Verif = SuprUtilisateur(NomUtilisateur)
+                Return Verif = SuprUtilisateur(NomUtilisateur)
         End Select
-
-        Return Verif
     End Function
 
     'Méthode qui ajoute les utilisateurs à la structure StructureUtilisateur et retourne true si l'ajout a fonctionné et false en cas d'échec
     Private Function AjoutUtilisateur(ByVal NomUtilisateur As String, ByVal MdP As String, ByVal Privilege As Integer) As Boolean
         Dim LecteurFichier As StreamWriter
+        Dim CopieurFichier As StreamWriter
         Dim Ligne As String
         ReDim Preserve Utilisateurs(ILectureUtilisateurs + 1)
 
@@ -203,13 +241,18 @@ Public Class GestionFichier
             LecteurFichier.Close()
 
             'On créé le fichier de l'utilisateur
-            File.Create("./FichiersSauvegarde/" & IDUtilisateur & ".csv")
+            Dim MonChemin As String = "./FichiersSauvegarde/" & NomUtilisateur & ".csv"
+            File.Create(MonChemin).Dispose()
+            CopieurFichier = New StreamWriter(MonChemin, False, Encoding.UTF8)
+            Ligne = " 000;000 "
+            CopieurFichier.WriteLine(Ligne)
+
+            CopieurFichier.Close()
             Return True
 
         Catch ex As Exception
             MessageBox.Show(ex.Message)
             Return False
-
         End Try
     End Function
 
@@ -259,7 +302,8 @@ Public Class GestionFichier
                 Loop While (i - 1) <> ILectureUtilisateurs
 
                 'On supprime le fichier Agenda de l'utilisateur et son back up
-                File.Delete("./FichiersSauvegarde/" & IDUtilisateur & ".csv")
+                File.Delete("./FichiersSauvegarde/" & NomUtilisateur & ".csv")
+                File.Delete("./FichiersSauvegarde/" & NomUtilisateur & "Old.csv")
                 'File.delete("./FichiersSauvegarde/" & IDUtilisateur & ".csv")
                 Return True
             Else
@@ -296,10 +340,13 @@ Public Class GestionFichier
             Dim LecteurFichier As StreamWriter = New StreamWriter("./FichiersSauvegarde/Utilisateurs.csv", False, Encoding.UTF8)
 
             Do
-                LecteurFichier.WriteLine(Utilisateurs(i).Pass & ";" & Utilisateurs(i).Pseudonyme & ";" & Utilisateurs(i).Privilege)
+                Dim Ligne As String = Utilisateurs(i).Pass & ";" & Utilisateurs(i).Pseudonyme & ";" & Utilisateurs(i).Privilege
+                LecteurFichier.WriteLine(Ligne)
+                i += 1
             Loop While (i - 1) <> ILectureUtilisateurs
 
             LecteurFichier.Close()
+            File.Move("./FichiersSauvegarde/" & NomUtilisateur & ".csv", "./FichiersSauvegarde/" & NouveauNom & ".csv")
             Return True
         Else
             Return False
@@ -321,6 +368,9 @@ Public Class GestionFichier
                 Cpt += 1
             Loop While Cpt < ILectureAgenda
 
+            Capteur = 0
+            ILectureAgenda = 0
+            ILectureUtilisateurs = 0
             LecteurFichier.Close()
             Return True
 
@@ -332,26 +382,40 @@ Public Class GestionFichier
 
     'Ecrit dans la mémoire vive (structure) les nouvelles données, mais ne sauvegarde pas dans le fichier !
     Public Function EcritureAgenda(ByVal DateJour As Integer, ByVal DateHeure As Integer, ByVal Information As String) As Boolean
-        If Not (String.IsNullOrEmpty(Information) Or String.IsNullOrWhiteSpace(Information)) Then
-            Dim Index As Integer = (DateJour * 100) + DateHeure
-            Dim i As Integer
-            Try
-                Do
+        Dim Index As Integer = (DateJour * 100) + DateHeure
+        Dim i As Integer
+        Dim Nouveau As Boolean = False
+        Try
+            If Not (String.IsNullOrEmpty(Information) Or String.IsNullOrWhiteSpace(Information)) Then
+                For i = 0 To ILectureAgenda - 1
                     If Agenda.Index(i) = Index Then
                         Agenda.NNote(i) = Information
+                        Return True
+                    ElseIf Nouveau = False Then
+                        Nouveau = True
                     End If
-                    i += 1
-                Loop While i < ILectureAgenda
-                ReDim Preserve Agenda.Index(ILectureAgenda)
-                ReDim Preserve Agenda.NNote(ILectureAgenda)
-                Agenda.Index(ILectureAgenda) = Index
-                Agenda.NNote(ILectureAgenda) = Information
-                ILectureAgenda += 1
-                Return True
-            Catch ex As Exception
-                Return False
-            End Try
-        End If
+                Next
+
+                If Nouveau = True Then
+                    ReDim Preserve Agenda.Index(ILectureAgenda)
+                    ReDim Preserve Agenda.NNote(ILectureAgenda)
+                    Agenda.Index(ILectureAgenda) = Index
+                    Agenda.NNote(ILectureAgenda) = Information
+                    ILectureAgenda += 1
+                End If
+            End If
+            Return True
+        Catch ex As Exception
+            Return False
+        End Try
     End Function
 
+    Public Function CreationUtilisateurPossible(ByVal NomUtilisateur) As Boolean
+        For Each Valeur In Utilisateurs
+            If NomUtilisateur = Valeur.Pseudonyme Then
+                Return False
+            End If
+        Next
+        Return True
+    End Function
 End Class

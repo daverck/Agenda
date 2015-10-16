@@ -7,10 +7,19 @@ Public Class FAgenda
     Dim TBHeures(23) As TextBox
 
     Private Sub FAgenda_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        '
+
         Me.StartPosition = FormStartPosition.Manual
         Me.Location = My.Computer.Screen.WorkingArea.Location
         Me.Size = My.Computer.Screen.WorkingArea.Size
+
+        LVUtilisateurs.FullRowSelect = True
+        LVUtilisateurs.View = View.Details
+        LVUtilisateurs.Columns.Add("Noms Utilisateurs :", 150, HorizontalAlignment.Left)
+        LVUtilisateurs.Columns.Add("Administrateurs :", 150, HorizontalAlignment.Left)
+        LVUtilisateurs.AllowColumnReorder = False
+        LVUtilisateurs.LabelEdit = False
+
+        MaListeUtilisateurs()
 
         'Limitation de la plage du widget calendrier à l'année courante
         Me.Calendrier.MinDate = New DateTime(DateTime.Now.Year, 1, 1)
@@ -54,7 +63,53 @@ Public Class FAgenda
         TBHeureRdv0.Select()
     End Sub
 
+    'Procédure qui ajoute les utilisateurs à la ListView
+    Private Sub MaListeUtilisateurs()
+        Dim ListeUtilisateursNoms() As String
+        Dim ListeUtilisateursPrivilege() As String
+        Dim i As Integer
+        Dim Privilege As String
+
+        ListeUtilisateursNoms = FBase.Gestion.DonnerUtilisateurs()
+        ListeUtilisateursPrivilege = FBase.Gestion.DonnerPrivilieges()
+
+        Dim MaLigne As ListViewItem
+
+        For Each Valeur In ListeUtilisateursNoms
+            If Valeur <> "root" Then
+                MaLigne = LVUtilisateurs.Items.Add(Valeur)
+                If ListeUtilisateursPrivilege(i) = 1 Then
+                    Privilege = "Administrateur"
+                Else
+                    Privilege = "Utilisateur"
+                End If
+                MaLigne.SubItems.Add(Privilege)
+            End If
+            i += 1
+        Next
+
+    End Sub
+
+
+    Private Sub LVUtilisateurs_Click(ByVal sender As Object, ByVal e As EventArgs) Handles LVUtilisateurs.Click
+
+        Dim MonItem As ListViewItem = LVUtilisateurs.SelectedItems(0)
+        TBNouvUtil.Text = MonItem.SubItems(0).Text
+        If (MonItem.SubItems(1).Text) = "Administrateur" Then
+            CBAdmin.Checked = True
+        Else
+            CBAdmin.Checked = False
+        End If
+    End Sub
+
     Private Sub FAgenda_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        Enregistrement()
+
+        'Fermeture de FBase
+        FBase.Dispose()
+    End Sub
+
+    Private Sub Enregistrement()
         'on trouve l'indice du jour actuel
         JourDeLAnnee = Me.Calendrier.SelectionRange.Start.DayOfYear
 
@@ -66,9 +121,6 @@ Public Class FAgenda
         If Not FBase.Gestion.EcritureFichierAgenda() Then
             MessageBox.Show("Erreur à l'enregistrement des données !")
         End If
-
-        'Fermeture de FBase
-        FBase.Dispose()
     End Sub
 
     Private Sub Calendrier_DateSelected(ByVal sender As Object, ByVal e As System.Windows.Forms.DateRangeEventArgs) Handles Calendrier.DateSelected
@@ -183,60 +235,115 @@ Public Class FAgenda
 
     Private Sub BCreerNouvUtil_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BCreerNouvUtil.Click
 
-        Dim Utilisateur As New ListViewItem
-        Dim Admin As Integer
+        Dim Privilege As Integer = 0
+        Dim MdP As String = ""
+        Dim Utilisateur As String = ""
+        Dim Verification As Boolean = False
 
-        Utilisateur.Text = TBNouvUtil.Text
-        Utilisateur.SubItems.Add(TBNouvMotPasse.Text)
-
-        If CBAdmin.Checked = True Then
-            Admin = 1
+        If FBase.Gestion.CreationUtilisateurPossible(TBNouvUtil.Text) = False Then
+            MessageBox.Show("Utilisateur déjà existant !")
+            Exit Sub
         End If
 
-        LVUtil.Items.Add(Utilisateur)
+        If CBAdmin.Checked = True Then
+            Privilege = 1
+        Else
+            Privilege = 0
+        End If
 
-        FBase.Gestion.GestionUtilisateurs(TBNouvUtil.Text, TBNouvMotPasse.Text, 1, Admin)
+        If TBNouvMotPasse.Text <> Nothing Then
+            MdP = TBNouvMotPasse.Text
+        Else
+            MessageBox.Show("Pas de mot de passe entré !")
+        End If
 
-        TBNouvUtil.Text = ""
+        If TBNouvUtil.Text <> Nothing Then
+            Utilisateur = TBNouvUtil.Text
+        End If
+
+        If (Verification = FBase.Gestion.GestionUtilisateurs(Utilisateur, 1, MdP, Privilege)) = True Then
+            Dim MaLigne As ListViewItem
+            MaLigne = LVUtilisateurs.Items.Add(TBNouvUtil.Text)
+            If CBAdmin.Checked = True Then
+                MaLigne.SubItems.Add("Administrateur")
+            Else
+                MaLigne.SubItems.Add("Utilisateur")
+            End If
+            MessageBox.Show("Utilisateur enregistré !")
+        End If
+
+    End Sub
+
+
+    Private Sub BModifier_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BModifier.Click
+        Dim Privilege As Integer
+        Dim Verification As Boolean
+
+        If LVUtilisateurs.SelectedItems.Count = 0 Then
+            Exit Sub
+        End If
+
+        If FBase.Gestion.CreationUtilisateurPossible(TBNouvUtil.Text) = False And LVUtilisateurs.SelectedItems(0).Text <> TBNouvUtil.Text Then
+            MessageBox.Show("Utilisateur déjà existant !")
+            Exit Sub
+        End If
+
+        If CBAdmin.Checked = True Then
+            Privilege = 1
+        End If
+        Verification = FBase.Gestion.ModifUtilisateur(LVUtilisateurs.SelectedItems(0).Text, TBNouvUtil.Text, TBNouvMotPasse.Text, Privilege)
+
+        If Verification = False Then
+            MessageBox.Show("Erreur lors de la modification !")
+        End If
+
+        LVUtilisateurs.SelectedItems(0).Text = TBNouvUtil.Text
+        If Privilege = 1 Then
+            LVUtilisateurs.SelectedItems(0).SubItems(1).Text = "Administrateur"
+        Else
+            LVUtilisateurs.SelectedItems(0).SubItems(1).Text = "Utilisateur"
+        End If
         TBNouvMotPasse.Text = ""
+        TBNouvUtil.Text = ""
+    End Sub
 
+    Private Sub TBNouvMotPasse_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TBNouvMotPasse.KeyPress
+        Dim symbol() As String = {"&", "²", "~", "#", "'", "{", "(", "[", "-", "|", "`", "_", "\", "^", "@", "°", ")", "]", "+", "=", "}",
+                                  """", "$", "£", "¤", "*µ", "ù", "%", "!", "§", ":", "/", ".", ";", ",", "?", "<", ">"}
+        If symbol.Contains(e.KeyChar) Then
+            e.Handled = True
+            MessageBox.Show("Tous les symboles de ponctuations et/ou autres sont interdits dans le mot de passe !")
+        End If
+    End Sub
+
+    Private Sub TBNouvUtil_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TBNouvUtil.KeyPress
+        Dim symbol() As String = {"&", "²", "~", "#", "'", "{", "(", "[", "-", "|", "`", "_", "\", "^", "@", "°", ")", "]", "+", "=", "}",
+                                  """", "$", "£", "¤", "*µ", "ù", "%", "!", "§", ":", "/", ".", ";", ",", "?", "<", ">"}
+        If symbol.Contains(e.KeyChar) Then
+            e.Handled = True
+            MessageBox.Show("Tous les symboles de ponctuations et/ou autres sont interdits dans le pseudonyme !")
+        End If
     End Sub
 
     Private Sub BSupprimUtil_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BSupprimUtil.Click
 
-        If LVUtil.SelectedItems.Count > 0 Then
-            LVUtil.Items.Remove(LVUtil.SelectedItems(0))
-
-            FBase.Gestion.GestionUtilisateurs(TBNouvUtil.Text, TBNouvMotPasse.Text, 2)
-
-            TBNouvUtil.Text = ""
-            TBNouvMotPasse.Text = ""
-
+        If LVUtilisateurs.SelectedItems.Count = 0 Then
+            Exit Sub
         End If
 
-    End Sub
-
-    Private Sub BModiF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BModiF.Click
-        If LVUtil.SelectedItems.Count > 0 Then
-            Dim Admin As Integer
-            
-            If CBAdmin.Checked = True Then
-                Admin = 1
-            End If
-
-            FBase.Gestion.ModifUtilisateur(LVUtil.SelectedItems(0).Text, TBNouvUtil.Text, TBNouvMotPasse.Text, Admin)
-
-            LVUtil.SelectedItems(0).Text = TBNouvUtil.Text
-            LVUtil.SelectedItems(0).SubItems(1).Text = TBNouvMotPasse.Text
-
-            TBNouvUtil.Text = ""
-            TBNouvMotPasse.Text = ""
+        If FBase.Gestion.SuprUtilisateur(LVUtilisateurs.SelectedItems(0).Text) = False Then
+            MessageBox.Show("Erreur lors de la suppression de l'utilisateur")
         End If
+
+        LVUtilisateurs.SelectedItems(0).Remove()
+
+        TBNouvMotPasse.Text = ""
+        TBNouvUtil.Text = ""
     End Sub
 
-    Private Sub LVUtil_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LVUtil.SelectedIndexChanged
-        TBNouvUtil.Text = LVUtil.SelectedItems(0).Text
-        TBNouvMotPasse.Text = LVUtil.SelectedItems(0).SubItems(1).Text
+    Private Sub BDeconnexion_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BDeconnexion.Click
+        Enregistrement()
+        FBase.Visible = True
+        Me.Dispose()
     End Sub
-
 End Class
