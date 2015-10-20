@@ -86,3 +86,14 @@ C:\Users\Public\Documents\Agenda-master\Agenda\obj\x86\Debug\WindowsApplication1
 C:\Users\Public\Documents\Agenda-master\Agenda\obj\x86\Debug\WindowsApplication1.Resources.resources
 C:\Users\Public\Documents\Agenda-master\Agenda\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\Users\Public\Documents\Agenda-master\Agenda\obj\x86\Debug\GenerateResource.write.1.tlog
+D:\cours bac 2\technique de gestion de projet\travail de groupe\github_agenda\Agenda\Agenda\obj\x86\Debug\Agenda.exe
+D:\cours bac 2\technique de gestion de projet\travail de groupe\github_agenda\Agenda\Agenda\obj\x86\Debug\Agenda.xml
+D:\cours bac 2\technique de gestion de projet\travail de groupe\github_agenda\Agenda\Agenda\obj\x86\Debug\Agenda.pdb
+D:\cours bac 2\technique de gestion de projet\travail de groupe\github_agenda\Agenda\Agenda\bin\Debug\Agenda.exe
+D:\cours bac 2\technique de gestion de projet\travail de groupe\github_agenda\Agenda\Agenda\bin\Debug\Agenda.pdb
+D:\cours bac 2\technique de gestion de projet\travail de groupe\github_agenda\Agenda\Agenda\bin\Debug\Agenda.xml
+D:\cours bac 2\technique de gestion de projet\travail de groupe\github_agenda\Agenda\Agenda\obj\x86\Debug\Agenda.vbprojResolveAssemblyReference.cache
+D:\cours bac 2\technique de gestion de projet\travail de groupe\github_agenda\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FBase.resources
+D:\cours bac 2\technique de gestion de projet\travail de groupe\github_agenda\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.FAgenda.resources
+D:\cours bac 2\technique de gestion de projet\travail de groupe\github_agenda\Agenda\Agenda\obj\x86\Debug\WindowsApplication1.Resources.resources
+D:\cours bac 2\technique de gestion de projet\travail de groupe\github_agenda\Agenda\Agenda\obj\x86\Debug\Agenda.vbproj.GenerateResource.Cache
