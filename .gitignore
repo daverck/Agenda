@@ -41,3 +41,9 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.Cache
+*.exe
+*.pdb
+*.pdb
+Agenda/obj/x86/Debug/Agenda.exe
+*.Cache
