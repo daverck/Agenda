@@ -44,3 +44,6 @@ Temporary Items
 *.Cache
 *.exe
 *.pdb
+*.pdb
+Agenda/obj/x86/Debug/Agenda.exe
+*.Cache

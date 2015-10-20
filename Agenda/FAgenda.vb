@@ -95,7 +95,7 @@ Public Class FAgenda
     End Sub
 
     'Cette procédure évènementielle permet à l'utilisateur de cliquer sur une ligne de la ListView, celle-ci apparrait dans les textbox/checkbox appropriées.
-    Private Sub LVUtilisateurs_Click(ByVal sender As Object, ByVal e As EventArgs) Handles LVUtilisateurs.Click
+    Private Sub LVUtilisateurs_Click(ByVal sender As Object, ByVal e As EventArgs)
 
         Dim MonItem As ListViewItem = LVUtilisateurs.SelectedItems(0)
         TBNouvUtil.Text = MonItem.SubItems(0).Text
@@ -257,11 +257,12 @@ Public Class FAgenda
             Exit Sub
         End If
 
-        'Si la CheckBox est activée, l'utilisateur est un administrateur sinon il est un simple utilisateur.
-        If CBAdmin.Checked = True Then
-            Privilege = 1
+        'Vérifie si un nom d'utilisateur a bien été encodé par l'utilisateur.
+        If TBNouvUtil.Text <> Nothing Then
+            Utilisateur = TBNouvUtil.Text
         Else
-            Privilege = 0
+            MessageBox.Show("Pas de nom d'utilisateur encodé")
+            Exit Sub
         End If
 
         'Vérifie si un mot de passe a bien été encodé par l'utilisateur.
@@ -269,13 +270,14 @@ Public Class FAgenda
             MdP = TBNouvMotPasse.Text
         Else
             MessageBox.Show("Pas de mot de passe entré !")
+            Exit Sub
         End If
 
-        'Vérifie si un nom d'utilisateur a bien été encodé par l'utilisateur.
-        If TBNouvUtil.Text <> Nothing Then
-            Utilisateur = TBNouvUtil.Text
+        'Si la CheckBox est activée, l'utilisateur est un administrateur sinon il est un simple utilisateur.
+        If CBAdmin.Checked = True Then
+            Privilege = 1
         Else
-            MessageBox.Show("Pas de nom d'utilisateur encodé")
+            Privilege = 0
         End If
 
         'Si L'utilisateur a bien été enregistré, l'objet Gestion renvoie true et l'utilisateur est ajouté à la ListView.
@@ -295,15 +297,33 @@ Public Class FAgenda
     'Procédure évenementielle utilisant les méthodes et procédures permettant la modification d'un utilisateur.
     Private Sub BModifier_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BModifier.Click
         Dim Privilege As Integer
+        Dim MdP As String = ""
+        Dim Utilisateur As String = ""
 
-        'S'il n'y a aucun utilisateur enregistré en dehors de root, quitte la procédure.
+        'S'il n'y a aucun utilisateur sélectionné (root non listé), quitte la procédure.
         If LVUtilisateurs.SelectedItems.Count = 0 Then
             Exit Sub
         End If
 
-        'Si un utilisateur portant le même nom existe déjà on empêche la modification.
+        'Si un utilisateur portant le même nom que le nouveau nom choisit alors on empêche la modification.
         If FBase.Gestion.CreationUtilisateurPossible(TBNouvUtil.Text) = False And LVUtilisateurs.SelectedItems(0).Text <> TBNouvUtil.Text Then
             MessageBox.Show("Utilisateur déjà existant !")
+            Exit Sub
+        End If
+
+        'Vérifie si un nom d'utilisateur a bien été encodé par l'utilisateur.
+        If TBNouvUtil.Text <> Nothing Then
+            Utilisateur = TBNouvUtil.Text
+        Else
+            MessageBox.Show("Pas de nom d'utilisateur encodé")
+            Exit Sub
+        End If
+
+        'Vérifie si un mot de passe a bien été encodé par l'utilisateur.
+        If TBNouvMotPasse.Text <> Nothing Then
+            MdP = TBNouvMotPasse.Text
+        Else
+            MessageBox.Show("Pas de mot de passe entré !")
             Exit Sub
         End If
 
@@ -313,7 +333,7 @@ Public Class FAgenda
         End If
 
         'On modifie les variables de l'utilisateur choisi, et l'objet Gestion renvoie true si tout s'est bien passé.
-        If FBase.Gestion.ModifUtilisateur(LVUtilisateurs.SelectedItems(0).Text, TBNouvUtil.Text, TBNouvMotPasse.Text, Privilege) = False Then
+        If FBase.Gestion.ModifUtilisateur(LVUtilisateurs.SelectedItems(0).Text, Utilisateur, MdP, Privilege) = False Then
             MessageBox.Show("Erreur lors de la modification !")
         End If
 
@@ -329,7 +349,7 @@ Public Class FAgenda
     End Sub
 
     'Procédure empêchant l'écriture de caractères spéciaux pour mot de passe(envoie un message d'alerte à l'utilisateur).
-    Private Sub TBNouvMotPasse_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TBNouvMotPasse.KeyPress
+    Private Sub TBNouvMotPasse_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
         Dim symbol() As String = {"&", "²", "~", "#", "'", "{", "(", "[", "-", "|", "`", "_", "\", "^", "@", "°", ")", "]", "+", "=", "}",
                                   """", "$", "£", "¤", "*µ", "ù", "%", "!", "§", ":", "/", ".", ";", ",", "?", "<", ">"}
         If symbol.Contains(e.KeyChar) Then
@@ -339,7 +359,7 @@ Public Class FAgenda
     End Sub
 
     'Procédure empêchant l'écriture de caractères spéciaux pour le nom d'utilisateur(envoie un message d'alerte à l'utilisateur).
-    Private Sub TBNouvUtil_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TBNouvUtil.KeyPress
+    Private Sub TBNouvUtil_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
         Dim symbol() As String = {"&", "²", "~", "#", "'", "{", "(", "[", "-", "|", "`", "_", "\", "^", "@", "°", ")", "]", "+", "=", "}",
                                   """", "$", "£", "¤", "*µ", "ù", "%", "!", "§", ":", "/", ".", ";", ",", "?", "<", ">"}
         If symbol.Contains(e.KeyChar) Then
@@ -372,5 +392,12 @@ Public Class FAgenda
         Enregistrement()
         FBase.Visible = True
         Me.Dispose()
+    End Sub
+
+    Private Sub LVUtilisateurs_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LVUtilisateurs.SelectedIndexChanged
+        If LVUtilisateurs.SelectedItems.Count = 0 Then
+            Exit Sub
+        End If
+        TBNouvUtil.Text = LVUtilisateurs.SelectedItems(0).Text
     End Sub
 End Class
