@@ -371,6 +371,7 @@ Public Class GestionFichier
             Loop While Cpt < ILectureAgenda
 
             Capteur = 0
+            ILectureAgenda = 0
             LecteurFichier.Close()
             Return True
 
@@ -384,24 +385,27 @@ Public Class GestionFichier
     Public Function EcritureAgenda(ByVal DateJour As Integer, ByVal DateHeure As Integer, ByVal Information As String) As Boolean
         Dim Index As Integer = (DateJour * 100) + DateHeure
         Dim i As Integer
-        Dim Nouveau As Boolean = False
         Try
+            'si la note n'est pas vide
             If Not (String.IsNullOrEmpty(Information) Or String.IsNullOrWhiteSpace(Information)) Then
+                'on modfifie une note si elle existe déjà
                 For i = 0 To ILectureAgenda - 1
                     If Agenda.Index(i) = Index Then
                         Agenda.NNote(i) = Information
                         Return True
-                    ElseIf Nouveau = False Then
-                        Nouveau = True
                     End If
                 Next
 
+                'On ajoute une nouvelle note.
                 ReDim Preserve Agenda.Index(ILectureAgenda)
                 ReDim Preserve Agenda.NNote(ILectureAgenda)
                 Agenda.Index(ILectureAgenda) = Index
                 Agenda.NNote(ILectureAgenda) = Information
                 ILectureAgenda += 1
-            Else 'Voir comment supprimer une valeur d'un tableau(drop)
+
+            Else ' Si la note est vide.
+                ' On vide la note si elle existe.
+                'TODO Voir comment supprimer une valeur d'un tableau(drop)
                 For i = 0 To ILectureAgenda - 1
                     If Agenda.Index(i) = Index Then
                         If (String.IsNullOrEmpty(Information) Or String.IsNullOrWhiteSpace(Information)) Then
