@@ -20,7 +20,7 @@ Public Class GestionFichier
     Private Agenda As StructureAgenda
 
     Private Capteur As Integer
-    Private IDUtilisateur As String
+    Public ReadOnly IDUtilisateur As String
 
     'Procédure de lecture du fichier regroupant les utilisateurs.
     Private Sub LectureFichierUtilisateurs(ByVal Fichier As String)
@@ -200,7 +200,6 @@ Public Class GestionFichier
 
             '
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
             Return "#erreur"
         End Try
 
@@ -253,7 +252,6 @@ Public Class GestionFichier
             Return True
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
             Return False
         End Try
     End Function
@@ -376,7 +374,6 @@ Public Class GestionFichier
             Return True
 
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
             Return False
         End Try
     End Function
