@@ -20,42 +20,34 @@ Public Class GestionFichier
     Private Agenda As StructureAgenda
 
     Private Capteur As Integer
-    Public ReadOnly IDUtilisateur As String
+    Private IDUtilisateur As String
 
     'Procédure de lecture du fichier regroupant les utilisateurs.
     Private Sub LectureFichierUtilisateurs(ByVal Fichier As String)
-        Try
-            Dim LectureLigne As String
-            Dim TableauDivision(50) As String
-            'On ouvre le fichier.
-            Dim LecteurFichier As New StreamReader(Fichier, System.Text.Encoding.UTF8)
+        Dim LectureLigne As String
+        Dim TableauDivision(50) As String
+        'On ouvre le fichier.
+        Dim LecteurFichier As New StreamReader(Fichier, System.Text.Encoding.UTF8)
 
-            'On récupère tous les utilisateurs et leurs logins dans une structure.
-            Do
-                LectureLigne = LecteurFichier.ReadLine()
-                ReDim Preserve Utilisateurs(ILectureUtilisateurs)
+        'On récupère tous les utilisateurs et leurs logins dans une structure.
+        Do
+            LectureLigne = LecteurFichier.ReadLine()
+            ReDim Preserve Utilisateurs(ILectureUtilisateurs)
+
+            If LectureLigne.Length > 0 Then
                 TableauDivision = Split(LectureLigne, ";")
                 Utilisateurs(ILectureUtilisateurs).Pass = TableauDivision(0)
                 Utilisateurs(ILectureUtilisateurs).Pseudonyme = TableauDivision(1)
                 Utilisateurs(ILectureUtilisateurs).Privilege = TableauDivision(2)
                 ILectureUtilisateurs += 1
-            Loop While LecteurFichier.Peek <> -1
+            End If
 
-            ILectureUtilisateurs -= 1
+        Loop While LecteurFichier.Peek <> -1
 
-            'Fermeture du lecteur et de son fichier.
-            LecteurFichier.Close()
+        ILectureUtilisateurs -= 1
 
-        Catch ex As Exception
-
-            'Si plantage, on lance la méthode backup liée à la récupération des fichiers et on relancera la méthode LectureFichierUtilisateurs.
-            Dim FichierCible As String = "./FichierSauvegarde/UtilisateursOld.csv"
-            File.Delete(Fichier)
-            File.Copy(FichierCible, Fichier)
-            ILectureUtilisateurs = 0
-            LectureFichierAgenda(Fichier)
-
-        End Try
+        'Fermeture du lecteur et de son fichier.
+        LecteurFichier.Close()
     End Sub
 
     'Méthode qui retourne un tableau reprenant l'ensemble des utilisateurs, si pas d'utilisateur, retourne nothing.
@@ -129,42 +121,28 @@ Public Class GestionFichier
 
     'Procédure de récupération des données dans le fichier correspondant lié à l'agenda.
     Private Sub LectureFichierAgenda(ByVal Fichier As String)
+        Dim TableauDivision(2) As String
+        Dim LectureLigne As String
+        'On initialise le lecteur de fichier avec la norme UTF8 et on ouvre le fichier.
+        Dim LecteurFichier As New StreamReader(Fichier, System.Text.Encoding.UTF8)
 
-        Try
-            Dim TableauDivision(2) As String
-            Dim LectureLigne As String
-            'On initialise le lecteur de fichier avec la norme UTF8 et on ouvre le fichier.
-            Dim LecteurFichier As New StreamReader(Fichier, System.Text.Encoding.UTF8)
+        'On récupère l'ensemble des données dans une structure.
+        While LecteurFichier.Peek <> -1
+            LectureLigne = LecteurFichier.ReadLine()
+            If LectureLigne.Length > 0 Then
 
-            'On récupère l'ensemble des données dans une structure.
-            While LecteurFichier.Peek <> -1
-                LectureLigne = LecteurFichier.ReadLine()
                 ReDim Preserve Agenda.Index(ILectureAgenda)
                 ReDim Preserve Agenda.NNote(ILectureAgenda)
                 TableauDivision = Split(LectureLigne, ";")
                 Agenda.Index(ILectureAgenda) = TableauDivision(0)
                 Agenda.NNote(ILectureAgenda) = TableauDivision(1)
                 ILectureAgenda += 1
-            End While
 
-            LecteurFichier.Close()
+            End If
 
-            'On sauvegarde le fichier actuel dans le fichier "Old".
-            Dim FichierCible = "./FichiersSauvegarde/" & IDUtilisateur & "Old.csv"
-            File.Delete(FichierCible)
-            File.Copy(Fichier, FichierCible)
+        End While
 
-        Catch ex As Exception
-            'On récupère la sauvegarde que l'on renomme puis on relance la procédure
-            Dim FichierSource As String = "./FichiersSauvegarde/" & IDUtilisateur & "Old.csv"
-            Dim FichierCible As String = "./FichiersSauvegarde/" & IDUtilisateur & ".csv"
-
-            'File.Delete(FichierCible)
-            'File.Copy(Fichier, FichierCible)
-            'ILectureAgenda = 0
-            'LectureFichierAgenda(FichierCible)
-
-        End Try
+        LecteurFichier.Close()
     End Sub
 
     'Méthode qui récupère les notes de l'utilisateur à l'heure du jour demandé.
@@ -245,8 +223,6 @@ Public Class GestionFichier
             Dim MonChemin As String = "./FichiersSauvegarde/" & NomUtilisateur & ".csv"
             File.Create(MonChemin).Dispose()
             CopieurFichier = New StreamWriter(MonChemin, False, Encoding.UTF8)
-            Ligne = " 000;000 "
-            CopieurFichier.WriteLine(Ligne)
 
             CopieurFichier.Close()
             Return True
@@ -300,11 +276,6 @@ Public Class GestionFichier
                     LecteurFichier.Close()
                     i += 1
                 Loop While (i - 1) <> ILectureUtilisateurs
-
-                'On supprime le fichier Agenda de l'utilisateur et son back up. A revoir !!!!!!.
-                File.Delete("./FichiersSauvegarde/" & NomUtilisateur & ".csv")
-                File.Delete("./FichiersSauvegarde/" & NomUtilisateur & "Old.csv")
-                'File.delete("./FichiersSauvegarde/" & IDUtilisateur & ".csv")
                 Return True
             Else
                 Return False

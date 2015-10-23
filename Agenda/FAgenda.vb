@@ -3,7 +3,6 @@
 Public Class FAgenda
 
     Dim JourDeLAnnee As Integer
-    Dim Imprimante As New Impression()
     Dim TBHeures(23) As TextBox
 
     'Cette procédure charge l'ensemble des éléments de l'affichage de l'agenda ainsi que du panel administratif.
